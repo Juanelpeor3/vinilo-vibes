@@ -1,0 +1,25 @@
+/* Estilos Generales del Footer */
+footer {
+    background-color: #fefefe;
+    padding: 1.5rem 1.5rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+}
+
+/* Estilo del Eslogan */
+footer p {
+    color: #bdc3c7;
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+footer div:last-child p {
+    font-size: 0.85rem;
+    color: #7f8c8d;
+}
+
+footer span{
+    font-weight: bold;
+}
