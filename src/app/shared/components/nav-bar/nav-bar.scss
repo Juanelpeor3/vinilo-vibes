@@ -1,0 +1,45 @@
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #fefefe;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* Contenedor del Logo */
+.left-part {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.left-part img{
+    height: 42px;
+    width: 42px;
+}
+
+.left-part p {
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin: 0;
+    color: #1f1f1f;
+}
+
+.right-part a svg{
+    fill:#666666;
+}
+
+/* Contenedor de Iconos */
+.right-part {
+    display: flex;
+    gap: 20px;
+}
+
+.right-part a:hover svg{
+    fill: #000000;
+}
+
+.left-part a:hover{
+    transform: scale(1.05);
+}
