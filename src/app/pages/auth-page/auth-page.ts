@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router, RouterOutlet } from "@angular/router";
+import { RouterOutlet } from "@angular/router";
 
 @Component({
   selector: 'app-auth-page',
@@ -8,9 +8,5 @@ import { Router, RouterOutlet } from "@angular/router";
   styleUrl: './auth-page.scss',
 })
 export class AuthPage {
-  constructor(private router: Router) { }
-  ngOnInit() {
-    this.router.navigate(["/auth/register"])
-  }
 
 }

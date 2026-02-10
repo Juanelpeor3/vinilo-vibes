@@ -19,7 +19,8 @@ export const routes: Routes = [
         component: AuthPage,
         children: [
             { path: "login", component: Login, title: "Login | Vinilo Vibes" },
-            { path: "register", component: Register, title: "Register | Vinilo Vibes" }
+            { path: "register", component: Register, title: "Register | Vinilo Vibes" },
+            { path: '', redirectTo: 'register', pathMatch: 'full' }
         ]
     },
     { path: "**", component: PageNotFound, title: "404 Not Found" }
