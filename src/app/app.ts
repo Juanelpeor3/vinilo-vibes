@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
+import { supabase } from './supabase';
 
 @Component({
   selector: 'app-root',
@@ -9,4 +10,10 @@ import { RouterOutlet } from '@angular/router';
 })
 export class App {
   protected readonly title = signal('vinilo-vibes');
+  constructor(private router: Router) { }
+  ngOnInit() {
+    supabase.auth.onAuthStateChange((_event, session) => {
+      console.log("Sesión:", session);
+    });
+  }
 }
