@@ -1,5 +1,107 @@
-div{
-    background-color: rgb(183, 197, 197);
-    min-height: calc(100vh - 70px); /* Para el Navbar fixed */
-    border: solid 1px black;
+.container {
+    min-height: calc(100vh - 70px);
+}
+
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 10%;
+    color: #333333;
+    background: linear-gradient(to bottom, #ffffff, #f5f5f5);
+    min-height: calc(100vh - 70px);
+}
+
+/* Contenido del Hero */
+.hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 550px;
+}
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    line-height: 1.35;
+    margin-bottom: 20px;
+    font-weight: 700;
+    color: #1a1a1a;
+    text-shadow: none;
+}
+
+.highlight {
+    color: #555555;
+}
+
+.hero-content p {
+    font-size: 1.25rem;
+    margin-bottom: 30px;
+    line-height: 1.5;
+    color: #666666;
+}
+
+/* Badge sutil */
+.hero-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    background: #c7c7c7;
+    color: #636363;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+
+.btn-collection {
+    display: inline-block;
+    padding: 14px 32px;
+    background-color: #666666;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.btn-collection:hover {
+    background-color: #0a0a0a;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.hero-image img {
+    max-width: 400px;
+    animation: spin 25s linear infinite;
+    border-radius: 100%;
+}
+
+.hero-image img:hover {
+    /* Detiene la animación */
+    animation-play-state: paused;
+
+}
+
+/* Animación girar vinilo */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsivo */
+@media (max-width: 900px) {
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        padding: 40px 5%;
+    }
+
+    .hero-image img {
+        margin-top: 40px;
+        max-width: 80%;
+    }
 }
