@@ -30,4 +30,10 @@ export class AuthService {
   onAuthChange(callback: any) {
     return supabase.auth.onAuthStateChange(callback);
   }
+
+  // Función para verificar si el usuario está autenticado
+  async checkAuth() {
+    const data = await supabase.auth.getSession();
+    return data;
+  }
 }

@@ -17,13 +17,8 @@ import { ProfileService } from '../../services/profile/profile';
 export class Profile {
   constructor(private router: Router, private profileService: ProfileService) { }
   profile = signal<any>(null);
-  async ngOnInit() {
-    // Verifica si el usuario está autenticado
-    if (!(await this.profileService.getSession()).data.session) {
-      this.router.navigate(['/auth/login']);
-      return;
-    }
 
+  async ngOnInit() {
     const { data } = await this.profileService.getProfile();
 
     if (data) {
