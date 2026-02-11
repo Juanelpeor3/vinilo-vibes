@@ -10,14 +10,6 @@ import { authGuard } from './guards/auth-guard/auth-guard';
 
 export const routes: Routes = [
     {
-        path: "",
-        component: MainLayout,
-        children: [
-            { path: "", component: Home, title: "Vinilo Vibes" },
-            { path: "profile", component: Profile, title: "Profile | Vinilo Vibes", canActivate: [authGuard] },
-        ]
-    },
-    {
         path: "auth",
         component: AuthPage,
         children: [
@@ -26,5 +18,15 @@ export const routes: Routes = [
             { path: '', redirectTo: 'register', pathMatch: 'full' }
         ]
     },
-    { path: "**", component: PageNotFound, title: "404 Not Found" }
+    {
+        path: "",
+        component: MainLayout,
+        children: [
+            { path: "", component: Home, title: "Vinilo Vibes" },
+            { path: "profile", component: Profile, title: "Profile | Vinilo Vibes", canActivate: [authGuard] },
+            { path: "**", component: PageNotFound, title: "404 Not Found" }
+        ]
+    },
+
+
 ];

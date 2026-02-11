@@ -1,0 +1,184 @@
+/* Contenedor principal */
+.container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to bottom, #ffffff, #f4f4f4);
+    padding: 0 10%;
+}
+
+/* Layout interno */
+.notfound {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.notfound-content {
+    max-width: 520px;
+}
+
+.notfound-error {
+    font-size: 6rem;
+    font-weight: 800;
+    color: #d9d9d9;
+    display: block;
+    line-height: 1;
+}
+
+.notfound-content h1 {
+    font-size: 3rem;
+    line-height: 1.2;
+    margin: 10px 0 20px 0;
+    color: #1a1a1a;
+}
+
+.notfound-content p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #666;
+    margin-bottom: 35px;
+}
+
+/* Botones */
+.notfound-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.btn-home {
+    padding: 14px 32px;
+    background-color: #666666;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.btn-home:hover {
+    background-color: #0a0a0a;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.btn-vinyls {
+    padding: 14px 32px;
+    border: 1px solid #cccccc;
+    color: #333333;
+    text-decoration: none;
+    font-weight: 500;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.btn-vinyls:hover {
+    background: #f0f0f0;
+}
+
+/* Visual Vinilo */
+.notfound-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notfound-image img {
+    max-width: 300px;
+    animation: broken-vinyl 25s infinite;
+    border-radius: 100%;
+}
+
+.notfound-image img:hover {
+    animation-play-state: paused;
+}
+
+/* Animación vinilo roto */
+@keyframes broken-vinyl {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    10% {
+        transform: rotate(30deg);
+    }
+
+    15% {
+        transform: rotate(25deg);
+    }
+
+    /* salto atrás */
+    25% {
+        transform: rotate(70deg);
+    }
+
+    30% {
+        transform: rotate(60deg);
+    }
+
+    /* pausa */
+    40% {
+        transform: rotate(120deg);
+    }
+
+    50% {
+        transform: rotate(110deg);
+    }
+
+    /* salto atrás */
+    60% {
+        transform: rotate(180deg);
+    }
+
+    65% {
+        transform: rotate(175deg);
+    }
+
+    /* pequeña pausa */
+    75% {
+        transform: rotate(260deg);
+    }
+
+    80% {
+        transform: rotate(250deg);
+    }
+
+    /* salto atrás */
+    90% {
+        transform: rotate(320deg);
+    }
+
+    95% {
+        transform: rotate(310deg);
+    }
+
+    /* salto atrás */
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsivo */
+@media (max-width: 900px) {
+
+    .notfound {
+        flex-direction: column;
+        text-align: center;
+        gap: 50px;
+    }
+
+    .notfound-error {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .notfound-actions {
+        justify-content: center;
+    }
+
+    .container {
+        padding: 10% 10%;
+    }
+}
