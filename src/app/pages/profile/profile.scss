@@ -1,0 +1,57 @@
+.profile-container {
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.user-card {
+    max-width: 400px;
+    width: 100%;
+}
+
+.info-row {
+    margin: 1rem 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.badge {
+    background: #e0e0e0;
+    padding: 2px 8px;
+    border-radius: 4px;
+    text-transform: capitalize;
+}
+
+.admin-banner {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.admin-banner p {
+    margin: 0;
+    font-weight: bold;
+}
+
+mat-card-actions {
+    margin-top: 12px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px
+}
+
+mat-card {
+    background-color: #fdfdfd;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+mat-card-title {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 12px;
+}

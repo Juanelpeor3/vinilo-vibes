@@ -5,13 +5,15 @@ import { AuthPage } from './pages/auth-page/auth-page';
 import { Login } from './pages/auth-page/login/login';
 import { Register } from './pages/auth-page/register/register';
 import { PageNotFound } from './pages/page-not-found/page-not-found';
+import { Profile } from './pages/profile/profile';
 
 export const routes: Routes = [
     {
         path: "",
         component: MainLayout,
         children: [
-            { path: "", component: Home, title: "Vinilo Vibes" }
+            { path: "", component: Home, title: "Vinilo Vibes" },
+            { path: "profile", component: Profile, title: "Profile | Vinilo Vibes" }
         ]
     },
     {

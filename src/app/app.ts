@@ -11,9 +11,4 @@ import { supabase } from './supabase';
 export class App {
   protected readonly title = signal('vinilo-vibes');
   constructor(private router: Router) { }
-  ngOnInit() {
-    supabase.auth.onAuthStateChange((_event, session) => {
-      console.log("Sesión:", session);
-    });
-  }
 }
