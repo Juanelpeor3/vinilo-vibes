@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { supabase } from '../../supabase';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,10 +16,11 @@ import { MatProgressSpinner } from "@angular/material/progress-spinner";
   styleUrl: './profile.scss',
 })
 export class Profile {
-  constructor(private router: Router, private profileService: ProfileService) { }
+  private profileService = inject(ProfileService);
+  constructor(private router: Router) { }
   profile = signal<any>(null);
 
-    isLoading = signal(true);
+  isLoading = signal(true);
 
   async ngOnInit() {
 

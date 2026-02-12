@@ -8,6 +8,7 @@ import { PageNotFound } from './pages/page-not-found/page-not-found';
 import { Profile } from './pages/profile/profile';
 import { authGuard } from './guards/auth-guard/auth-guard';
 import { VinylList } from './shared/components/vinyl-list/vinyl-list';
+import { VinylDetails } from './pages/vinyl-details/vinyl-details';
 
 export const routes: Routes = [
     {
@@ -26,7 +27,7 @@ export const routes: Routes = [
             { path: "", component: Home, title: "Vinilo Vibes" },
             { path: "profile", component: Profile, title: "Profile | Vinilo Vibes", canActivate: [authGuard] },
             { path: 'collections/vinyls', component: VinylList, title: "Collections | Vinilo Vibes" },
-            { path: 'collections/vinyls/:id', component: VinylList },
+            { path: 'collections/vinyls/:id', component: VinylDetails, title: "Vinilo Vibes" }, // También tiene título dinámico
             { path: "**", component: PageNotFound, title: "404 Not Found" }
         ]
     },
