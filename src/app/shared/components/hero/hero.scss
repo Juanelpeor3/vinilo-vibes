@@ -20,12 +20,12 @@
 }
 
 .hero-content h1 {
-    font-size: 3.5rem;
     line-height: 1.35;
     margin-bottom: 20px;
     font-weight: 700;
     color: #1a1a1a;
     text-shadow: none;
+    font-size: clamp(2rem, 5vw, 3.5rem);
 }
 
 .highlight {
@@ -33,7 +33,7 @@
 }
 
 .hero-content p {
-    font-size: 1.25rem;
+    font-size: clamp(1rem, 3vw, 1.25rem);
     margin-bottom: 30px;
     line-height: 1.5;
     color: #666666;
