@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
   styleUrl: './register.scss',
 })
 export class Register {
+  error = signal<string | null>(null);
   registerForm: FormGroup;
   hidePassword = true;
 
@@ -43,20 +44,20 @@ export class Register {
     password = password?.trim();
 
     if (!email || !password) {
-      console.error("Email o contraseña vacíos");
+      this.error.set("Email o contraseña vacíos");
       return;
     }
 
     try {
       const { error } = await this.auth.signUp(email, password);
       if (error) {
-        console.error("Error de registro:", error.message);
+        this.error.set(error.message);
         return;
       }
-      console.log("Usuario registrado correctamente.");
+      this.error.set(null);
       this.router.navigate(["/auth/login"]);
     } catch (err) {
-      console.error("Error inesperado:", err);
+      this.error.set("Error inesperado: " + err);
     }
   }
 }

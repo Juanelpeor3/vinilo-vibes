@@ -21,6 +21,9 @@
       </mat-card-content>
 
       <mat-card-actions>
+        <div class="error-container">
+          <p>{{ error() }}</p>
+        </div>
         <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">
           INGRESAR
         </button>

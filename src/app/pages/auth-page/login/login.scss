@@ -6,3 +6,15 @@ mat-card {
 mat-form-field {
   width: 100%;
 }
+
+mat-card-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  padding: 0 16px;
+}
+
+.error-container {
+  color: #d32f2f;
+  margin-bottom: 16px;
+}

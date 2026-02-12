@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
   styleUrl: './login.scss',
 })
 export class Login {
+  error = signal<string | null>(null);
   loginForm: FormGroup;
 
   email = "";
@@ -36,7 +37,7 @@ export class Login {
       const { email, password } = this.loginForm.value;
       console.log("Datos de login:", this.loginForm.value);
       const { error } = await this.auth.signIn(email, password);
-      if (error) { console.error(error.message) } else { console.log("Inicio de sesión exitoso"); this.router.navigate(["/"]) };
+      if (error) { this.error.set(error.message); } else { console.log("Inicio de sesión exitoso"); this.router.navigate(["/"]) };
     }
   }
 }
