@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { VinylService } from '../../services/vinyl/vinyl';
-import { Vinyl } from '../../shared/components/vinyl-card/vinyl-card';
+import { Vinyl } from '../../shared/models/vinyl-model';
 import { ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { PageNotFound } from "../page-not-found/page-not-found";
@@ -16,6 +16,14 @@ export class VinylDetails {
   private vinylService = inject(VinylService);
   constructor(private route: ActivatedRoute, private titleService: Title) { }
 
+  genre_names: Record<string, string> = {
+    '1': 'Rock',
+    '2': 'Jazz',
+    '3': 'Pop',
+    '4': 'Hiphop',
+    '5': 'Electrónica'
+  };
+
   vinyl = signal<Vinyl | null>(null);
   isLoading = signal(true);
 
@@ -26,6 +34,7 @@ export class VinylDetails {
         const data = await this.vinylService.getById(id);
         this.vinyl.set(data);
         const title = data?.title
+
         // Crear título dinámico
         this.titleService.setTitle(`${title} | Vinilo Vibes`)
       } catch (error) {

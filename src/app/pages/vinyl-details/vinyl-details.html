@@ -22,8 +22,21 @@
       <h3>DESCRIPCIÓN</h3>
       <p>{{ data.description }}</p>
     </div>
-
-    <button class="btn-buy">Añadir al carrito</button>
+    <div class="genre">
+      <h3>GÉNERO</h3>
+      <p>{{ genre_names[data.genre_id] }}</p>
+    </div>
+    <div class="stock">
+      <h3>DISPONIBILIDAD</h3>
+      <p [class.out-of-stock]="data.stock === 0" [class.low-stock]="data.stock > 0 && data.stock <= 5">
+        @if (data.stock > 0) {
+        En stock ({{ data.stock }} unidades)
+        } @else {
+        Agotado temporalmente
+        }
+      </p>
+    </div>
+    <button class="btn-buy" [disabled]="data.stock === 0">Añadir al carrito</button>
   </div>
 </div>
 } @else {

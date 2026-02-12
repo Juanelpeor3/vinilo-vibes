@@ -9,13 +9,6 @@
     margin: 0 auto;
 }
 
-@media (min-width: 768px) {
-    .vinyl-grid {
-        grid-template-columns: 1fr 1fr;
-        padding-top: 4rem;
-    }
-}
-
 .vinyl-cover {
     width: 100%;
     object-fit: cover;
@@ -23,7 +16,7 @@
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
-/* Typography & Info */
+/* Tipografia e información */
 .label {
     letter-spacing: 0.1em;
     font-size: 0.75rem;
@@ -41,26 +34,52 @@
     font-size: 1.5rem;
     font-weight: 400;
     color: #555555;
-    margin-bottom: 2rem;
 }
 
 .price {
     font-size: 2rem;
     font-weight: 600;
-    margin-bottom: 2rem;
     color: #2c3e50;
 }
 
-.description h3 {
-    font-size: 0.9rem;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 0.5rem;
-    margin-bottom: 1rem;
+.artist,
+.price,
+.description,
+.genre {
+    margin-bottom: 2rem;
 }
 
-.description p {
+.description h3,
+.genre h3,
+.stock h3 {
+    font-size: 0.9rem;
+    border-bottom: 1px solid #eeeeee;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    color: #333333;
+}
+
+.description p,
+.genre p {
     line-height: 1.6;
     color: #444444;
+}
+
+/* Estado: Disponible (Verde) */
+.stock p {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #2e7d32;
+}
+
+/* Estado: Poco stock (Naranja) */
+.stock p.low-stock {
+    color: #ed6c02;
+}
+
+/* Estado: Agotado (Rojo) */
+.stock p.out-of-stock {
+    color: #d32f2f;
 }
 
 /* Botón */
@@ -82,6 +101,12 @@
     background-color: #666666;
 }
 
+/* Desactivar el botón si no hay stock */
+.btn-buy:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
 /* Mensaje si no carga el vinilo */
 .status-message {
     display: flex;
@@ -93,4 +118,11 @@
     padding: 2rem;
     max-width: 1200px;
     margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .vinyl-grid {
+        grid-template-columns: 1fr 1fr;
+        padding-top: 4rem;
+    }
 }
