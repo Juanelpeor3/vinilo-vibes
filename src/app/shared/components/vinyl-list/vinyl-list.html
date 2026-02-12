@@ -1,0 +1,18 @@
+<div class="container">
+    <h2 class="mat-h2">Vinilos disponibles:</h2>
+
+    @if (isLoading()) {
+    <div class="spinner-container">
+        <mat-spinner diameter="50"></mat-spinner>
+        <p>Cargando datos...</p>
+    </div>
+    } @else {
+    <div class="cards-grid">
+        @for (item of vinyls(); track item.id) {
+        <app-vinyl-card [vinyl]="item" />
+        } @empty {
+        <p class="mat-body-1">No se encontraron vinilos en la colección.</p>
+        }
+    </div>
+    }
+</div>

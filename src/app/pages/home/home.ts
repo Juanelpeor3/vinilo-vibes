@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { Hero } from "../../shared/components/hero/hero";
+import { VinylList } from "../../shared/components/vinyl-list/vinyl-list";
 
 @Component({
   selector: 'app-home',
-  imports: [Hero],
+  imports: [Hero, VinylList],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })

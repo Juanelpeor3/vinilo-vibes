@@ -7,6 +7,7 @@ import { Register } from './pages/auth-page/register/register';
 import { PageNotFound } from './pages/page-not-found/page-not-found';
 import { Profile } from './pages/profile/profile';
 import { authGuard } from './guards/auth-guard/auth-guard';
+import { VinylList } from './shared/components/vinyl-list/vinyl-list';
 
 export const routes: Routes = [
     {
@@ -24,6 +25,8 @@ export const routes: Routes = [
         children: [
             { path: "", component: Home, title: "Vinilo Vibes" },
             { path: "profile", component: Profile, title: "Profile | Vinilo Vibes", canActivate: [authGuard] },
+            { path: 'collections/vinyls', component: VinylList, title: "Collections | Vinilo Vibes" },
+            { path: 'collections/vinyls/:id', component: VinylList },
             { path: "**", component: PageNotFound, title: "404 Not Found" }
         ]
     },
