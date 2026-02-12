@@ -3,10 +3,12 @@ import { VinylService } from '../../services/vinyl/vinyl';
 import { Vinyl } from '../../shared/components/vinyl-card/vinyl-card';
 import { ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
+import { PageNotFound } from "../page-not-found/page-not-found";
+import { MatProgressSpinner } from "@angular/material/progress-spinner";
 
 @Component({
   selector: 'app-vinyl-details',
-  imports: [],
+  imports: [PageNotFound, MatProgressSpinner],
   templateUrl: './vinyl-details.html',
   styleUrl: './vinyl-details.scss',
 })

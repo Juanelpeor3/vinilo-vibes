@@ -1,36 +1,31 @@
-<section class="details-container">
-  @if (isLoading()) {
-    <div class="status-message">
-      <div class="spinner"></div>
-      <p>Cargando vinilo...</p>
+@if (isLoading()) {
+<div class="status-message">
+  <mat-spinner diameter="50"></mat-spinner>
+  <p>Cargando vinilo...</p>
+</div>
+} @else if (vinyl(); as data) {
+<div class="vinyl-grid">
+  <div class="image-section">
+    <img [src]="data.image_url" [alt]="data.title" class="vinyl-cover">
+  </div>
+
+  <div class="info-section">
+    <header>
+      <span class="label">DISCO DE VINILO</span>
+      <h1 class="title">{{ data.title }}</h1>
+      <h2 class="artist">{{ data.artist }}</h2>
+    </header>
+
+    <div class="price">{{ data.price }} €</div>
+
+    <div class="description">
+      <h3>DESCRIPCIÓN</h3>
+      <p>{{ data.description }}</p>
     </div>
-  } @else if (vinyl(); as data) {
-    <article class="vinyl-grid">
-      <div class="image-section">
-        <img [src]="data.image_url" [alt]="data.title" class="vinyl-cover">
-      </div>
 
-      <div class="info-section">
-        <header>
-          <span class="label">DISCO DE VINILO</span>
-          <h1 class="title">{{ data.title }}</h1>
-          <h2 class="artist">{{ data.artist }}</h2>
-        </header>
-
-        <div class="price">{{ data.price }} €</div>
-
-        <div class="description">
-          <h3>DESCRIPCIÓN</h3>
-          <p>{{ data.description }}</p>
-        </div>
-
-        <button class="btn-buy">Añadir al carrito</button>
-      </div>
-    </article>
-  } @else {
-    <div class="status-message">
-      <p>Vinilo no encontrado.</p>
-      <a href="/" class="back-link">Volver</a>
-    </div>
-  }
-</section>
+    <button class="btn-buy">Añadir al carrito</button>
+  </div>
+</div>
+} @else {
+<app-page-not-found></app-page-not-found>
+}

@@ -1,15 +1,12 @@
-.details-container {
-    padding: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
 /* Estilo Grid */
 .vinyl-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 3rem;
     align-items: start;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 @media (min-width: 768px) {
@@ -19,19 +16,11 @@
     }
 }
 
-/* Estilos de la Imagen */
-.image-section {
-    position: sticky;
-    top: 2rem;
-}
-
 .vinyl-cover {
     width: 100%;
-    aspect-ratio: 1 / 1;
     object-fit: cover;
     border-radius: 4px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-    background-color: #eeeeee;
 }
 
 /* Typography & Info */
@@ -71,7 +60,7 @@
 
 .description p {
     line-height: 1.6;
-    color: #444;
+    color: #444444;
 }
 
 /* Botón */
@@ -95,6 +84,13 @@
 
 /* Mensaje si no carga el vinilo */
 .status-message {
+    display: flex;
+    flex-direction: column;
     text-align: center;
+    align-items: center;
+    justify-content: center;
     padding: 5rem 0;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
 }
