@@ -1,12 +1,14 @@
+@if(notFound()) {
+<app-page-not-found></app-page-not-found>
+}
+@else if (isLoading()) {
+<div class="spinner-container">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Cargando vinilos...</p>
+</div>
+} @else {
 <div class="container">
     <h2 class="mat-h2">{{ currentName() }}</h2>
-
-    @if (isLoading()) {
-    <div class="spinner-container">
-        <mat-spinner diameter="50"></mat-spinner>
-        <p>Cargando vinilos...</p>
-    </div>
-    } @else {
     <div class="cards-grid">
         @for (item of vinyls(); track item.id) {
         <app-vinyl-card [vinyl]="item" />
@@ -14,5 +16,5 @@
         <p class="mat-body-1">No se encontraron vinilos en la colección.</p>
         }
     </div>
-    }
 </div>
+}
