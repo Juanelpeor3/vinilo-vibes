@@ -35,7 +35,7 @@ export class VinylList {
     if (genreId) {
       // Con el genreId, obtenemos los vinilos de ese género específico
       this.titleService.setTitle(`${this.genre_names[genreId]} | Vinilo Vibes`);
-      this.currentName.set(`Vinilos de ${this.genre_names[genreId]}`);
+      this.currentName.set(`Vinilos de ${this.genre_names[genreId]}:`);
 
       this.vinyls.set(await this.vinylService.getByGenreId(genreId));
       this.isLoading.set(false);
