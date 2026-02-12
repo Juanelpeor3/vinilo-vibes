@@ -1,0 +1,14 @@
+<div class="rating-badge">
+
+    <div class="rating-info">
+        @if (count > 0) {
+        <span class="avg-score">{{ average }}/5</span>
+        <mat-icon class="star-icon">star</mat-icon>
+        <span class="count-label">
+            {{ count }} opiniones
+        </span>
+        } @else {
+        <span class="no-ratings">Sin valoraciones</span>
+        }
+    </div>
+</div>

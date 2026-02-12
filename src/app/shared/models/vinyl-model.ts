@@ -1,3 +1,5 @@
+import { Rating } from "./rating-model";
+
 // Define la interfaz Vinyl para tipar los datos del vinilo
 export interface Vinyl {
     id: number;
@@ -8,4 +10,5 @@ export interface Vinyl {
     price: number;
     genre_id: number;
     stock: number;
+    ratings?: Rating[];
 }

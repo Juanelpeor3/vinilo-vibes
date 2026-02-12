@@ -1,0 +1,16 @@
+/* Estado: Disponible (Verde) */
+p {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #2e7d32;
+}
+
+/* Estado: Poco stock (Naranja) */
+p.low-stock {
+    color: #ed6c02;
+}
+
+/* Estado: Agotado (Rojo) */
+p.out-of-stock {
+    color: #d32f2f;
+}

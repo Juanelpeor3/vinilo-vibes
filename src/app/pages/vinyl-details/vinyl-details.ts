@@ -5,10 +5,12 @@ import { ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { PageNotFound } from "../page-not-found/page-not-found";
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
+import { StarRating } from "../../shared/components/star-rating/star-rating";
+import { StockData } from "../../shared/components/stock-data/stock-data";
 
 @Component({
   selector: 'app-vinyl-details',
-  imports: [PageNotFound, MatProgressSpinner],
+  imports: [PageNotFound, MatProgressSpinner, StarRating, StockData],
   templateUrl: './vinyl-details.html',
   styleUrl: './vinyl-details.scss',
 })

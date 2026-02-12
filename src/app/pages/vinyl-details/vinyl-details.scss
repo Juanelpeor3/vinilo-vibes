@@ -16,6 +16,15 @@
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
+/* Estilos para la sección de información del header del vinilo */
+.header-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+}
+
 /* Tipografia e información */
 .label {
     letter-spacing: 0.1em;
@@ -63,23 +72,6 @@
 .genre p {
     line-height: 1.6;
     color: #444444;
-}
-
-/* Estado: Disponible (Verde) */
-.stock p {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: #2e7d32;
-}
-
-/* Estado: Poco stock (Naranja) */
-.stock p.low-stock {
-    color: #ed6c02;
-}
-
-/* Estado: Agotado (Rojo) */
-.stock p.out-of-stock {
-    color: #d32f2f;
 }
 
 /* Botón */

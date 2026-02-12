@@ -1,0 +1,36 @@
+/* Estilos para el componente de valoración */
+.rating-info {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Valoración por estrellas */
+.avg-score {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #1e293b;
+}
+
+/* Estilos para el icono de la estrella */
+.star-icon {
+    color: #fbbf24;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Estilos para el número de valoraciones */
+.count-label {
+    font-size: 0.85rem;
+    color: #666666;
+}
+
+.no-ratings {
+    font-size: 0.85rem;
+    color: #666666;
+    font-style: italic;
+}
