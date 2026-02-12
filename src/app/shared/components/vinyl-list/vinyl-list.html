@@ -1,10 +1,10 @@
 <div class="container">
-    <h2 class="mat-h2">Vinilos disponibles:</h2>
+    <h2 class="mat-h2">{{ currentName() }}</h2>
 
     @if (isLoading()) {
     <div class="spinner-container">
         <mat-spinner diameter="50"></mat-spinner>
-        <p>Cargando datos...</p>
+        <p>Cargando vinilos...</p>
     </div>
     } @else {
     <div class="cards-grid">

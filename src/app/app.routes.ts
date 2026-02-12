@@ -26,8 +26,9 @@ export const routes: Routes = [
         children: [
             { path: "", component: Home, title: "Vinilo Vibes" },
             { path: "profile", component: Profile, title: "Profile | Vinilo Vibes", canActivate: [authGuard] },
-            { path: 'collections/vinyls', component: VinylList, title: "Collections | Vinilo Vibes" },
+            { path: 'collections/vinyls', component: VinylList, title: "Vinyls | Vinilo Vibes" },
             { path: 'collections/vinyls/:id', component: VinylDetails, title: "Vinilo Vibes" }, // También tiene título dinámico
+            { path: 'collections/genres/:genreId', component: VinylList, title: "Vinilo Vibes" },
             { path: "**", component: PageNotFound, title: "404 Not Found" }
         ]
     },

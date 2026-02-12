@@ -5,13 +5,13 @@
 
 .cards-grid {
     display: grid;
-    // Cada tarjeta tendrá un ancho mínimo de 280px y se ajustará automáticamente al espacio disponible
+    /* Cada tarjeta tendrá un ancho mínimo de 280px y se ajustará automáticamente al espacio disponible */
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 24px;
     padding-top: 20px;
 }
 
-// Centrar el spinner de carga
+/* Centrar el spinner de carga */
 .spinner-container {
     display: flex;
     flex-direction: column;
