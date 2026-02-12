@@ -1,3 +1,9 @@
+@if (isLoading()) {
+<div class="spinner-container">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Cargando datos...</p>
+</div>
+} @else {
 <div class="profile-container">
     <mat-card class="user-card">
         <mat-card-header>
@@ -37,3 +43,4 @@
         </mat-card-actions>
     </mat-card>
 </div>
+}
