@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Hero } from "../../shared/components/hero/hero";
-import { VinylList } from "../../shared/components/vinyl-list/vinyl-list";
+import { VinylList } from "../vinyl-list/vinyl-list";
 
 @Component({
   selector: 'app-home',

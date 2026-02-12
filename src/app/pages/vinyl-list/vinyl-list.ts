@@ -1,12 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { VinylCard } from '../vinyl-card/vinyl-card';
-import { VinylService } from '../../../services/vinyl/vinyl';
+import { VinylCard } from '../../shared/components/vinyl-card/vinyl-card';
+import { VinylService } from '../../services/vinyl/vinyl';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { Vinyl } from '../../models/vinyl-model';
-import { PageNotFound } from "../../../pages/page-not-found/page-not-found";
+import { Vinyl } from '../../shared/models/vinyl-model';
+import { PageNotFound } from "../page-not-found/page-not-found";
 
 @Component({
   selector: 'app-vinyl-list',

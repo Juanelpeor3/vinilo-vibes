@@ -7,7 +7,7 @@ import { Register } from './pages/auth-page/register/register';
 import { PageNotFound } from './pages/page-not-found/page-not-found';
 import { Profile } from './pages/profile/profile';
 import { authGuard } from './guards/auth-guard/auth-guard';
-import { VinylList } from './shared/components/vinyl-list/vinyl-list';
+import { VinylList } from './pages/vinyl-list/vinyl-list';
 import { VinylDetails } from './pages/vinyl-details/vinyl-details';
 
 export const routes: Routes = [
