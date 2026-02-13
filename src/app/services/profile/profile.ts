@@ -11,8 +11,8 @@ export class ProfileService {
 
   async getProfile() {
     return await supabase
-      .from('profiles')
-      .select('id, name, email, role')
+      .from("profiles")
+      .select("id, name, email, role")
       .single();
   }
 

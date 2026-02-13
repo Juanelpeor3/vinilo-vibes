@@ -36,9 +36,9 @@ export class Profile {
   // Función para cerrar sesión
   signOut() {
     this.profileService.signOut();
-    this.router.navigate(['/auth/login']);
+    this.router.navigate(["/auth/login"]);
   }
   navigateToAdmin() {
-    this.router.navigate(['/admin']);
+    this.router.navigate(["/dashboard"]);
   }
 }
