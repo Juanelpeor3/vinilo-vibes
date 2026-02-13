@@ -1,4 +1,4 @@
-<mat-card class="vinyl-card-material">
+<mat-card [routerLink]="['/collections/vinyls', vinyl().id]">
     <img mat-card-image [src]="vinyl().image_url" [alt]="vinyl().title">
 
     <mat-card-header>
@@ -9,9 +9,4 @@
     <mat-card-content>
         <h3 class="price">{{ vinyl().price }} €</h3>
     </mat-card-content>
-
-    <mat-card-actions align="end">
-        <button [routerLink]="['/collections/vinyls', vinyl().id]" mat-button>DETALLES</button>
-        <button mat-raised-button color="primary">COMPRAR</button>
-    </mat-card-actions>
 </mat-card>

@@ -1,23 +1,16 @@
+/* Estilos para todas las cards */ 
 mat-card {
     background-color: #ebebeb;
     overflow: hidden;
-}
-
-/* Mismo tamaño y color para todas las Cards */
-.vinyl-card-material {
-    background-color: #ebebeb;
+    cursor: pointer;
     display: flex;
     flex-direction: column;
-    height: 520px;
+    height: 490px;
 }
 
 /* Mismo tamaño para todas las Imagenes */
-.vinyl-card-material img {
+mat-card img {
     width: 100%;
     height: 320px;
     object-fit: cover;
-}
-
-mat-card-actions {
-    margin-top: auto;
 }
