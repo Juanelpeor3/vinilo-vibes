@@ -1,0 +1,61 @@
+.container {
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.add-container {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: #f5f7f6;
+    color: #2e7d32;
+    font-weight: 500;
+    font-size: 0.9rem;
+    border: 1px solid #0000001f;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.add-icon {
+    font-size: 1.25rem;
+    width: 20px;
+    height: 20px;
+}
+
+.add-container:hover {
+    background: #eef3ef;
+    border-color: #2e7d320f;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.add-container:active {
+    transform: translateY(0px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.cards-grid {
+    display: grid;
+    /* Cada tarjeta tendrá un ancho mínimo de 280px y se ajustará automáticamente al espacio disponible */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+    padding-top: 20px;
+}
+
+/* Centrar el spinner de carga */
+.spinner-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
