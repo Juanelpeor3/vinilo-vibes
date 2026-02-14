@@ -1,16 +1,16 @@
 import { Component, inject, signal } from '@angular/core';
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
-import { VinylCard } from "../../../shared/components/vinyl-card/vinyl-card";
 import { CommonModule } from '@angular/common';
 import { VinylService } from '../../../services/vinyl/vinyl';
 import { ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { Vinyl } from '../../../shared/models/vinyl-model';
 import { MatIcon } from "@angular/material/icon";
+import { VinylAdminCard } from "../vinyl-admin-card/vinyl-admin-card";
 
 @Component({
   selector: 'app-vinyl-admin-list',
-  imports: [CommonModule, MatProgressSpinner, VinylCard, MatIcon],
+  imports: [CommonModule, MatProgressSpinner, MatIcon, VinylAdminCard],
   templateUrl: './vinyl-admin-list.html',
   styleUrl: './vinyl-admin-list.scss',
 })
