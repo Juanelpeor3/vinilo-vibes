@@ -9,8 +9,8 @@ export class VinylService {
   async getAll(): Promise<Vinyl[]> {
     const { data, error } = await supabase
       .from("vinyls")
-      .select("*, ratings(*)"); // Seleccionamos todos los campos de vinyls y también los ratings relacionados
-
+      .select("*, ratings(*)") // Seleccionamos todos los campos de vinyls y también los ratings relacionados
+      .order("id", { ascending: true });
     if (error) {
       return [];
     }
@@ -33,8 +33,8 @@ export class VinylService {
     const { data, error } = await supabase
       .from("vinyls")
       .select("*, ratings(*)") // Seleccionamos todos los campos de vinyls y también los ratings relacionados
-      .eq("genre_id", genreId); // Filtramos por la columna 'genre_id'
-
+      .eq("genre_id", genreId) // Filtramos por la columna 'genre_id'
+      .order("id", { ascending: true });
     if (error) {
       return []; // Retornamos un array vacío si falla
     }
