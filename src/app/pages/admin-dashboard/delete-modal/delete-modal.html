@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>Eliminar vinilo PERMANENTEMENTE</h2>
+
+<mat-dialog-content [formGroup]="deleteVinylForm">
+    <p>Esta acción no se puede deshacer.</p>
+    <p>Para confirmar, escribe <strong>"{{ data.title }}"</strong> a continuación:</p>
+
+    <mat-form-field>
+        <mat-label>Título del vinilo</mat-label>
+        <input matInput formControlName="title" />
+    </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button matButton (click)="onNoClick()">Cancelar</button>
+    <button matButton [mat-dialog-close]="true" [disabled]="deleteVinylForm.invalid">
+        Eliminar permanentemente
+    </button>
+</mat-dialog-actions>

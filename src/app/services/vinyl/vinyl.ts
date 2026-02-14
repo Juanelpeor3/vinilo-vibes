@@ -60,4 +60,12 @@ export class VinylService {
     }
     return data as Vinyl;
   }
+
+  async delete(id: number): Promise<boolean> {
+    const { error } = await supabase
+      .from("vinyls")
+      .delete()
+      .eq("id", id);
+    return !error;
+  }
 }
