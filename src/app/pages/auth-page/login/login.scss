@@ -1,20 +1,20 @@
 mat-card {
-  background-color: #fdfdfd;
-  box-shadow: 0 0 0 0;
+    background-color: #fdfdfd;
+    box-shadow: 0 0 0 0;
 }
 
 mat-form-field {
-  width: 100%;
+    width: 100%;
 }
 
 mat-card-actions {
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  padding: 0 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding: 0 16px;
 }
 
 .error-container {
-  color: #d32f2f;
-  margin-bottom: 16px;
+    color: #d32f2f;
+    margin-bottom: 16px;
 }
