@@ -41,4 +41,23 @@ export class VinylService {
 
     return data as Vinyl[];
   }
+
+  async create(vinyl: Omit<Vinyl, 'id'>): Promise<Vinyl | null> {
+    // Convertimos los campos numéricos a números antes de insertarlos
+    const payload = {
+      ...vinyl,
+      price: Number(vinyl.price),
+      stock: Number(vinyl.stock),
+      genre_id: Number(vinyl.genre_id)
+    };
+    const { data, error } = await supabase
+      .from("vinyls")
+      .insert(payload)
+      .select()
+      .single();
+    if (error) {
+      return null;
+    }
+    return data as Vinyl;
+  }
 }
