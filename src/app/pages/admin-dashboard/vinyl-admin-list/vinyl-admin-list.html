@@ -18,7 +18,7 @@
     </div>
     <div class="cards-grid">
         @for (item of vinyls(); track item.id) {
-        <app-vinyl-card [vinyl]="item" />
+        <app-vinyl-admin-card [vinyl]="item"></app-vinyl-admin-card>
         } @empty {
         <p class="mat-body-1">No se encontraron vinilos en la colección.</p>
         }

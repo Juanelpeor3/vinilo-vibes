@@ -1,0 +1,17 @@
+<mat-card>
+    <img mat-card-sm-image [src]="vinyl().image_url" [alt]="vinyl().title">
+
+    <mat-card-header>
+        <mat-card-title>{{ vinyl().title }}</mat-card-title>
+        <mat-card-subtitle>{{ vinyl().artist }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+        <h3 class="price">{{ vinyl().price }} €</h3>
+        <div class="end-content">
+            <button class="info-button" [routerLink]="['/collections/vinyls', vinyl().id]">Ver info</button>
+            <button class="edit-button">Editar</button>
+            <button class="delete-button">Eliminar</button>
+        </div>
+    </mat-card-content>
+</mat-card>
