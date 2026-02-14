@@ -6,6 +6,7 @@ import { Vinyl } from '../../../shared/models/vinyl-model';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteModal } from '../delete-modal/delete-modal';
 import { VinylService } from '../../../services/vinyl/vinyl';
+import { EditModal } from '../edit-modal/edit-modal';
 
 @Component({
   selector: 'app-vinyl-admin-card',
@@ -29,6 +30,24 @@ export class VinylAdminCard {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.vinylService.delete(vinyl.id).then(success => {
+          if (success) {
+            this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+              this.router.navigate(['dashboard']);
+            });
+          }
+        });
+      }
+    });
+  }
+  openEditModal(vinyl: Vinyl) {
+    const dialogRef = this.dialog.open(EditModal, {
+      width: '450px',
+      data: { id: vinyl.id, title: vinyl.title }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.vinylService.update(vinyl.id, result).then(success => {
           if (success) {
             this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
               this.router.navigate(['dashboard']);

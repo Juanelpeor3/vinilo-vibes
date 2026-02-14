@@ -68,4 +68,18 @@ export class VinylService {
       .eq("id", id);
     return !error;
   }
+  async update(id: number, vinyl: Omit<Vinyl, 'id'>): Promise<boolean> {
+    // Convertimos los campos numéricos a números antes de actualizarlos
+    const payload = {
+      ...vinyl,
+      price: Number(vinyl.price),
+      stock: Number(vinyl.stock),
+      genre_id: Number(vinyl.genre_id)
+    };
+    const { error } = await supabase
+      .from("vinyls")
+      .update(payload)
+      .eq("id", id);
+    return !error;
+  }
 }
