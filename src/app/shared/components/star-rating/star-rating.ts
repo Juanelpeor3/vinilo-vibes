@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, computed, input, Input } from '@angular/core';
 import { Rating } from '../../models/rating-model';
 import { MatIcon, MatIconModule } from "@angular/material/icon";
 
@@ -9,26 +9,16 @@ import { MatIcon, MatIconModule } from "@angular/material/icon";
   styleUrl: './star-rating.scss',
 })
 export class StarRating {
-  @Input() ratings: Rating[] | undefined = []; // Recibimos el array de ratings de Supabase
+  ratings = input<Rating[]>([]);
 
-  average: number = 0;
-  count: number = 0;
+  // Solo si ratings cambia
+  average = computed(() => {
+    const list = this.ratings();
+    if (list.length === 0) return 0;
 
-  ngOnChanges() {
-    this.calculateRating();
-  }
+    const total = list.reduce((acc, curr) => acc + curr.rating, 0);
+    return total / list.length;
+  });
 
-  private calculateRating() {
-    if (!this.ratings || this.ratings.length === 0) {
-      this.average = 0;
-      this.count = 0;
-      return;
-    }
-
-    // Calcular el promedio
-    // Sumar todas las valoraciones y dividir por el número de valoraciones
-    const total = this.ratings.reduce((acc, curr) => acc + curr.rating, 0);
-    this.average = total / this.ratings.length;
-    this.count = this.ratings.length;
-  }
+  count = computed(() => this.ratings().length);
 }

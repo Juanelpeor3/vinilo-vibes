@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, Input } from '@angular/core';
 
 @Component({
   selector: 'app-stock-data',
@@ -7,5 +7,5 @@ import { Component, Input } from '@angular/core';
   styleUrl: './stock-data.scss',
 })
 export class StockData {
-  @Input() data: { stock: number } = { stock: 0 }; // Recibimos el stock del vinilo
+  data = input<{ stock: number }>({ stock: 0 });
 }
