@@ -35,9 +35,8 @@ export class Login {
   async onSubmit() {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
-      console.log("Datos de login:", this.loginForm.value);
       const { error } = await this.auth.signIn(email, password);
-      if (error) { this.error.set(error.message); } else { console.log("Inicio de sesión exitoso"); this.router.navigate(["/"]) };
+      if (error) { this.error.set(error.message); } else { this.router.navigate(["/"]) };
     }
   }
 }
