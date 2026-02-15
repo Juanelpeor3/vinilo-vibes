@@ -34,8 +34,9 @@ nav {
     color: #1f1f1f;
 }
 
-.right-part a svg {
-    fill: #666666;
+.right-part mat-icon {
+    color: #666666;
+    cursor: pointer;
 }
 
 /* Contenedor de Iconos */
@@ -44,8 +45,8 @@ nav {
     gap: 20px;
 }
 
-.right-part a:hover svg {
-    fill: #0a0a0a;
+.right-part mat-icon:hover {
+    color: #0a0a0a;
 }
 
 .left-part a:hover {
