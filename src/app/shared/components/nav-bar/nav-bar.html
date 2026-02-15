@@ -8,7 +8,8 @@
     <div class="right-part">
         <mat-icon routerLink="/profile">person</mat-icon>
         <mat-icon routerLink="/">search</mat-icon>
-        <mat-icon routerLink="/">shopping_bag</mat-icon>
+        <mat-icon routerLink="/cart" [matBadge]="cartService.cartCount()"
+            [matBadgeHidden]="cartService.cartCount() === 0" matBadgeColor="accent">shopping_bag</mat-icon>
     </div>
 
 </nav>

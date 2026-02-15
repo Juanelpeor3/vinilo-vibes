@@ -33,7 +33,7 @@
       <h3>DISPONIBILIDAD</h3>
       <app-stock-data [data]="{ stock: data.stock }"></app-stock-data>
     </div>
-    <button class="btn-buy" [disabled]="data.stock === 0">Añadir al carrito</button>
+    <button class="btn-buy" (click)="addToCart(data)" [disabled]="data.stock === 0">Añadir al carrito</button>
   </div>
 </div>
 } @else {

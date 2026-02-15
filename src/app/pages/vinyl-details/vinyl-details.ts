@@ -1,12 +1,16 @@
 import { Component, inject, signal } from '@angular/core';
 import { VinylService } from '../../services/vinyl/vinyl';
 import { Vinyl } from '../../shared/models/vinyl-model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { PageNotFound } from "../page-not-found/page-not-found";
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { StarRating } from "../../shared/components/star-rating/star-rating";
 import { StockData } from "../../shared/components/stock-data/stock-data";
+import { AuthService } from '../../services/auth/auth';
+import { CartService } from '../../services/cart/cart';
+import { WarnModal } from '../../shared/components/warn-modal/warn-modal';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-vinyl-details',
@@ -16,7 +20,9 @@ import { StockData } from "../../shared/components/stock-data/stock-data";
 })
 export class VinylDetails {
   private vinylService = inject(VinylService);
-  constructor(private route: ActivatedRoute, private titleService: Title) { }
+  private authService = inject(AuthService);
+  private cartService = inject(CartService);
+  constructor(private route: ActivatedRoute, private titleService: Title, private router: Router, private dialog: MatDialog) { }
 
   genre_names: Record<string, string> = {
     '1': 'Rock',
@@ -47,5 +53,31 @@ export class VinylDetails {
     } else {
       this.isLoading.set(false);
     }
+  }
+
+  async addToCart(vinyl: Vinyl) {
+    const { data } = await this.authService.checkAuth();
+    if (!data.session) {
+      this.openWarnModal("Para agregar productos al carrito, debes iniciar sesión", "¿Quieres iniciar sesión ahora?");
+      return;
+    } else {
+      this.cartService.addToCart(vinyl);
+    }
+  }
+
+  openWarnModal(title: string, message: string) {
+    const dialogRef = this.dialog.open(WarnModal, {
+      width: '450px',
+      data: {
+        title: title,
+        message: message
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.router.navigate(["/auth/login"]);
+      }
+    });
   }
 }
