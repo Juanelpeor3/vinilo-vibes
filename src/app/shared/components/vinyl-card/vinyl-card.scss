@@ -1,4 +1,4 @@
-/* Estilos para todas las cards */ 
+/* Estilos para todas las cards */
 mat-card {
     background-color: #ebebeb;
     overflow: hidden;
@@ -6,6 +6,10 @@ mat-card {
     display: flex;
     flex-direction: column;
     height: 490px;
+}
+
+mat-card:hover {
+    background-color: #e0e0e0;
 }
 
 /* Mismo tamaño para todas las Imagenes */
