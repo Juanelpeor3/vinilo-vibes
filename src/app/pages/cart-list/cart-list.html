@@ -1,0 +1,19 @@
+<div class="cart-container">
+    <h2>Tu Carrito ({{ cartService.cartCount() }} productos)</h2>
+
+    @if (items().length > 0) {
+    <div class="cart-list">
+        @for (item of items(); track item.id) {
+        <app-cart-card [item]="item"></app-cart-card>
+        }
+    </div>
+
+    <hr>
+    <h3>Total: {{ cartService.totalPrice() }} €</h3>
+
+    <button class="checkout-btn" (click)="buyVinils()">Finalizar Compra</button>
+
+    } @else {
+    <p>El carrito está vacío. ¡Ve a buscar unos vinilos!</p>
+    }
+</div>

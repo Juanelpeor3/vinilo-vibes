@@ -41,4 +41,31 @@ export class CartService {
       }
     });
   }
+  // Redondear el precio total a 2 decimales
+  totalPrice = computed(() => {
+    const total = this.cartItems().reduce((acc, item) => acc + (item.price * item.quantity), 0);
+    return Math.round(total * 100) / 100;
+  });
+
+  // Vaciar el carrito
+  clearCart() {
+    this.cartItems.set([]);
+  }
+
+  // Eliminar un producto por id
+  removeItem(productId: string) {
+    this.cartItems.update(items => items.filter(i => i.id !== productId));
+  }
+  updateQuantity(id: number, delta: number) {
+    this.cartItems.update(items => {
+      return items.map(item => {
+        if (item.id === id) {
+          const newQuantity = item.quantity + delta;
+          // Evitamos que la cantidad sea menor a 1
+          return { ...item, quantity: newQuantity > 0 ? newQuantity : 1 };
+        }
+        return item;
+      });
+    });
+  }
 }

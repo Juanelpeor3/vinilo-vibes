@@ -1,0 +1,31 @@
+<div class="cart-card-container">
+    <div class="image-container">
+        <img [src]="item().image_url" [alt]="item().title" class="vinyl-img">
+    </div>
+
+    <div class="item-details">
+        <h3 class="title">{{ item().title }}</h3>
+        <p class="subtitle">Precio: {{ item().price}} € x {{ item().quantity }}</p>
+        <div class="quantity-selector">
+            <button mat-icon-button (click)="cartService.updateQuantity(item().id, -1)"
+                [disabled]="item().quantity <= 1">
+                <mat-icon>remove</mat-icon>
+            </button>
+
+            <span class="qty-number">{{ item().quantity }}</span>
+
+            <button mat-icon-button (click)="cartService.updateQuantity(item().id, 1)">
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <div class="actions">
+        <span class="subtotal-text">Subtotal</span>
+        <span class="subtotal-amount">{{ Math.round((item().price * item().quantity)*100)/100 }} €</span>
+
+        <button mat-icon-button class="delete-btn" (click)="cartService.removeItem(item().id)">
+            <mat-icon>delete_outline</mat-icon>
+        </button>
+    </div>
+</div>
