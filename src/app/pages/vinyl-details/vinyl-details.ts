@@ -11,6 +11,7 @@ import { AuthService } from '../../services/auth/auth';
 import { CartService } from '../../services/cart/cart';
 import { WarnModal } from '../../shared/components/warn-modal/warn-modal';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-vinyl-details',
@@ -22,7 +23,14 @@ export class VinylDetails {
   private vinylService = inject(VinylService);
   private authService = inject(AuthService);
   private cartService = inject(CartService);
-  constructor(private route: ActivatedRoute, private titleService: Title, private router: Router, private dialog: MatDialog) { }
+
+  constructor(
+    private route: ActivatedRoute,
+    private titleService: Title,
+    private router: Router,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
+  ) { }
 
   genre_names: Record<string, string> = {
     '1': 'Rock',
@@ -62,6 +70,17 @@ export class VinylDetails {
       return;
     } else {
       this.cartService.addToCart(vinyl);
+      // Se muestra un snackbar de que el producto se ha añadido al carrito
+      const snackBarRef = this.snackBar.open('Producto añadido al carrito', 'VER CARRITO', {
+        duration: 3000, // Tiempo en pantalla
+        horizontalPosition: 'center',
+        verticalPosition: 'bottom'
+      });
+
+      // Si se da al botón se redirige al carrito
+      snackBarRef.onAction().subscribe(() => {
+        this.router.navigate(['/cart']);
+      });
     }
   }
 
