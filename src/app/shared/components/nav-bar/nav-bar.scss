@@ -34,6 +34,13 @@ nav {
     color: #1f1f1f;
 }
 
+.right-part button {
+    background: none;
+    border: none;
+    color: #666666;
+    cursor: pointer;
+}
+
 .right-part mat-icon {
     color: #666666;
     cursor: pointer;
@@ -42,7 +49,7 @@ nav {
 /* Contenedor de Iconos */
 .right-part {
     display: flex;
-    gap: 20px;
+    gap: 10px;
 }
 
 .right-part mat-icon:hover {

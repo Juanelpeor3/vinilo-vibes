@@ -6,10 +6,16 @@
         <p>Vinilo Vibes</p>
     </div>
     <div class="right-part">
-        <mat-icon routerLink="/profile">person</mat-icon>
-        <mat-icon routerLink="/">search</mat-icon>
-        <mat-icon routerLink="/cart" [matBadge]="cartService.cartCount()"
-            [matBadgeHidden]="cartService.cartCount() === 0" matBadgeColor="accent">shopping_bag</mat-icon>
+        <button matIconButton routerLink="/profile" aria-label="Ir a tu perfil">
+            <mat-icon>person</mat-icon>
+        </button>
+        <button matIconButton routerLink="/search" aria-label="Buscar vinilos">
+            <mat-icon>search</mat-icon>
+        </button>
+        <button matIconButton routerLink="/cart" aria-label="Ver carrito de compras">
+            <mat-icon [matBadge]="cartService.cartCount()" [matBadgeHidden]="cartService.cartCount() === 0"
+                aria-hidden="false">shopping_bag</mat-icon>
+        </button>
     </div>
 
 </nav>

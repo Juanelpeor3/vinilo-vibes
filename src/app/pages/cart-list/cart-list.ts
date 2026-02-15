@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { CartService } from '../../services/cart/cart';
 import { CartCard } from "./cart-card/cart-card";
+import { MatButtonModule } from "@angular/material/button";
 
 @Component({
   selector: 'app-cart-list',
-  imports: [CartCard],
+  imports: [CartCard, MatButtonModule],
   templateUrl: './cart-list.html',
   styleUrl: './cart-list.scss',
 })
@@ -13,8 +14,8 @@ export class CartList {
   items = this.cartService.cartItems;
   totalPrice = this.cartService.totalPrice;
 
-  buyVinils() {
-    alert('Compra realizada por un total de: ' + this.totalPrice());
+  checkoutProducts() {
+    alert("Compra realizada por un total de: " + this.totalPrice());
     this.cartService.clearCart();
   }
 }
