@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -14,6 +14,7 @@ import { MatSelectModule } from '@angular/material/select';
 })
 export class EditModal {
   readonly dialogRef = inject(MatDialogRef<EditModal>);
+  readonly data = inject(MAT_DIALOG_DATA)
   editVinylForm: FormGroup;
 
   constructor(private fb: FormBuilder) {
@@ -26,6 +27,12 @@ export class EditModal {
       genre_id: [null, Validators.required],
       stock: [0, Validators.required]
     });
+  }
+
+  ngOnInit() {
+    if (this.data) {
+      this.editVinylForm.patchValue(this.data);
+    }
   }
 
   onNoClick(): void {

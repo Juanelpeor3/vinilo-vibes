@@ -42,7 +42,7 @@ export class VinylAdminCard {
   openEditModal(vinyl: Vinyl) {
     const dialogRef = this.dialog.open(EditModal, {
       width: '450px',
-      data: { id: vinyl.id, title: vinyl.title }
+      data: vinyl
     });
 
     dialogRef.afterClosed().subscribe(result => {
