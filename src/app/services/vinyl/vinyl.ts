@@ -2,10 +2,22 @@ import { Injectable } from '@angular/core';
 import { supabase } from '../../supabase';
 import { Vinyl } from '../../shared/models/vinyl-model';
 
+/**
+ * Servicio encargado de gestionar el catálogo de vinilos.
+ * @remarks
+ * Realiza operaciones sobre la tabla `vinyls` de Supabase e integra
+ * la recuperación de reseñas asociadas desde la tabla `ratings`.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class VinylService {
+
+  /**
+   * Obtiene la lista completa de vinilos.
+   * @returns Promesa con un array de objetos Vinyl. Incluye sus ratings asociados.
+   * Si ocurre un error, retorna un array vacío.
+   */
   async getAll(): Promise<Vinyl[]> {
     const { data, error } = await supabase
       .from("vinyls")
@@ -16,6 +28,12 @@ export class VinylService {
     }
     return data as Vinyl[];
   }
+
+  /**
+   * Busca un vinilo específico por su identificador.
+   * @param id - UUID o identificador único del vinilo.
+   * @returns Promesa con el objeto Vinyl o `null` si no se encuentra o hay un error.
+   */
   async getById(id: string): Promise<Vinyl | null> {
     const { data, error } = await supabase
       .from("vinyls")
@@ -29,6 +47,11 @@ export class VinylService {
 
     return data as Vinyl;
   }
+  /**
+   * Filtra el catálogo de vinilos por un género específico.
+   * @param genreId - ID del género musical.
+   * @returns Lista de vinilos que pertenecen al género indicado.
+   */
   async getByGenreId(genreId: string): Promise<Vinyl[]> {
     const { data, error } = await supabase
       .from("vinyls")
@@ -42,6 +65,12 @@ export class VinylService {
     return data as Vinyl[];
   }
 
+  /**
+   * Crea un nuevo registro de vinilo en la base de datos.
+   * @remarks El método asegura que los valores de precio, stock y género se inserten como tipos numéricos.
+   * @param vinyl - Objeto con la información del vinilo (sin el ID).
+   * @returns El objeto Vinyl creado o `null` en caso de fallo.
+   */
   async create(vinyl: Omit<Vinyl, 'id'>): Promise<Vinyl | null> {
     // Convertimos los campos numéricos a números antes de insertarlos
     const payload = {
@@ -61,6 +90,11 @@ export class VinylService {
     return data as Vinyl;
   }
 
+  /**
+   * Elimina un vinilo de la base de datos.
+   * @param id - Identificador numérico del vinilo.
+   * @returns `true` si la operación fue exitosa, `false` en caso contrario.
+   */
   async delete(id: number): Promise<boolean> {
     const { error } = await supabase
       .from("vinyls")
@@ -68,8 +102,14 @@ export class VinylService {
       .eq("id", id);
     return !error;
   }
+
+  /**
+   * Actualiza la información de un vinilo existente.
+   * @param id - Identificador del registro a modificar.
+   * @param vinyl - Datos actualizados del vinilo.
+   * @returns Booleano indicando el éxito de la operación.
+   */
   async update(id: number, vinyl: Omit<Vinyl, 'id'>): Promise<boolean> {
-    // Convertimos los campos numéricos a números antes de actualizarlos
     const payload = {
       ...vinyl,
       price: Number(vinyl.price),
@@ -82,9 +122,17 @@ export class VinylService {
       .eq("id", id);
     return !error;
   }
-  // Método para actualizar el stock
+
+  /**
+   * Reduce el stock disponible de un vinilo tras una compra.
+   * @remarks
+   * Primero obtiene el stock actual y luego calcula el nuevo valor.
+   * Si el resultado es negativo, el stock se fija en 0 por seguridad.
+   * @param id - ID del vinilo.
+   * @param quantity - Cantidad de unidades a descontar.
+   * @returns `true` si el stock se actualizó correctamente.
+   */
   async decreaseStock(id: number, quantity: number): Promise<boolean> {
-    // Obtenemos el stock actual
     const { data: vinyl, error: fetchError } = await supabase
       .from('vinyls')
       .select('stock')

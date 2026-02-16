@@ -1,0 +1,10 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["src/app/services", "src/app/guards"],
+  "entryPointStrategy": "expand",
+  "out": "./dist/vinilo-vibes/browser/documentation",
+  "cleanOutputDir": true,
+  "exclude": ["**/*.spec.ts"],
+  "hideGenerator": true,
+  "name": "Documentación de Vinilo Vibes",
+}
