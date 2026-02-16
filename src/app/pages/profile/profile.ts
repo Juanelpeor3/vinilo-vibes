@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { ProfileService } from '../../services/profile/profile';
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
+import { CartService } from '../../services/cart/cart';
 
 @Component({
   selector: 'app-profile',
@@ -16,7 +17,8 @@ import { MatProgressSpinner } from "@angular/material/progress-spinner";
   styleUrl: './profile.scss',
 })
 export class Profile {
-  private profileService = inject(ProfileService);
+  cartService=inject(CartService);
+  profileService = inject(ProfileService);
   constructor(private router: Router) { }
   profile = signal<any>(null);
 
@@ -35,6 +37,7 @@ export class Profile {
 
   // Función para cerrar sesión
   signOut() {
+    this.cartService.clearCart();
     this.profileService.signOut();
     this.router.navigate(["/auth/login"]);
   }
