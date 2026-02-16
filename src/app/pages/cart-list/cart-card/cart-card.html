@@ -14,7 +14,8 @@
 
             <span class="qty-number">{{ item().quantity }}</span>
 
-            <button mat-icon-button (click)="cartService.updateQuantity(item().id, 1)">
+            <button mat-icon-button (click)="cartService.updateQuantity(item().id, 1)"
+                [disabled]="item().stock <= item().quantity">
                 <mat-icon>add</mat-icon>
             </button>
         </div>
