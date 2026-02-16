@@ -82,4 +82,31 @@ export class VinylService {
       .eq("id", id);
     return !error;
   }
+  // Método para actualizar el stock
+  async decreaseStock(id: number, quantity: number): Promise<boolean> {
+    // Obtenemos el stock actual
+    const { data: vinyl, error: fetchError } = await supabase
+      .from('vinyls')
+      .select('stock')
+      .eq('id', id)
+      .single();
+
+    if (fetchError || !vinyl) {
+      return false;
+    }
+
+    const newStock = vinyl.stock - quantity;
+    const finalStock = newStock >= 0 ? newStock : 0;
+
+    const { error: updateError } = await supabase
+      .from('vinyls')
+      .update({ stock: finalStock }) // Solo actualizamos el campo stock
+      .eq('id', id);
+
+    if (updateError) {
+      return false;
+    }
+
+    return true;
+  }
 }

@@ -14,8 +14,8 @@ export class CartList {
   items = this.cartService.cartItems;
   totalPrice = this.cartService.totalPrice;
 
-  checkoutProducts() {
-    alert("Compra realizada por un total de: " + this.totalPrice());
-    this.cartService.clearCart();
+  async checkoutProducts() {
+    alert("Compra realizada por un total de: " + this.totalPrice() + "€");
+    await this.cartService.checkoutProducts();
   }
 }

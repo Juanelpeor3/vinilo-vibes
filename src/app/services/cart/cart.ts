@@ -1,9 +1,11 @@
-import { computed, effect, Injectable, signal } from '@angular/core';
+import { computed, effect, inject, Injectable, signal } from '@angular/core';
+import { VinylService } from '../vinyl/vinyl';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
+  vinilService = inject(VinylService);
   // Una Signal con los items
   cartItems = signal<any[]>(this.loadCartFromStorage());
 
@@ -56,6 +58,7 @@ export class CartService {
   removeItem(productId: string) {
     this.cartItems.update(items => items.filter(i => i.id !== productId));
   }
+
   updateQuantity(id: number, delta: number) {
     this.cartItems.update(items => {
       return items.map(item => {
@@ -67,5 +70,17 @@ export class CartService {
         return item;
       });
     });
+  }
+
+  async checkoutProducts() {
+    const itemsToBuy = this.cartItems();
+
+    const updates = itemsToBuy.map(item =>
+      this.vinilService.decreaseStock(item.id, item.quantity)
+    );
+
+    await Promise.all(updates);
+
+    this.clearCart();
   }
 }
