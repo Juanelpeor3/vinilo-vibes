@@ -1,6 +1,7 @@
-.container{
-    display:flex ;
+.container {
+    display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     gap: 1.5rem;
@@ -10,10 +11,12 @@
     border-bottom: 1px solid #b6b6b6;
     border-width: 0.5px;
 }
-a{
+
+a {
     text-decoration: none;
     color: #1f1f1f;
 }
-a:hover{
+
+a:hover {
     text-decoration: underline;
 }

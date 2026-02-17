@@ -98,10 +98,16 @@
         flex-direction: column;
         text-align: center;
         padding: 40px 5%;
+        min-height: auto;
     }
 
     .hero-image img {
         margin-top: 40px;
         max-width: 80%;
     }
+
+    .container {
+        min-height: 50vh;
+    }
+
 }
