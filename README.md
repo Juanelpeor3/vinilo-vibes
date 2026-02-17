@@ -1,59 +1,86 @@
-# ViniloVibes
+<div align="center">
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.1.
+# 🎶 Vinilo Vibes 🎶
 
-## Development server
+### El Sonido Original Vive en el Vinilo.
 
-To start a local development server, run:
+![Angular](https://img.shields.io/badge/Angular-v21-dd0031?style=for-the-badge&logo=angular&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
+![Angular Material](https://img.shields.io/badge/Material--UI-3F51B5?style=for-the-badge&logo=angular-material&logoColor=white)
+![TypeDoc](https://img.shields.io/badge/TypeDoc-406C59?style=for-the-badge&logo=typedoc&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 
+[Ver Demo en Vivo](https://vinilo-vibes.vercel.app/)
+
+[Ver documentación](https://vinilo-vibes.vercel.app/documentation/index.html)
+</div>
+
+## Descripción del proyecto
+Vinilo Vibes es una tienda online que vende vinilos
+### Caracteristicas
+
+* **📂 Navegación por Géneros:** Sistema de filtrado para encontrar rápidamente joyas del Rock, Jazz, Pop y más.
+* 🛒 **Experiencia de Compra:** Flujo completo desde el catálogo hasta el checkout.
+* **🔍 Vista Detallada de Producto:** Fichas con información expandida del producto.
+* ⚡ **Performance:** Renderizado eficiente mediante *Signals*.
+
+
+## Instrucciones de instalación
+Sigue los siguientes pasos para levantar el proyecto en tu entorno local.
+
+### Prerrequisitos
+Debemos de tener instalado una versión compatible de Node.js y npm
+
+### Instalación de paquetes
+Clonamos el repositorio:
+```bash
+https://github.com/Juanelpeor3/vinilo-vibes.git
+```
+
+Instalamos las dependencias:
+```bash
+npm install
+```
+
+### Servidor de desarrollo
+Para visualizar la aplicación en modo desarrollo, usa cualquiera de los siguientes comandos.
 ```bash
 ng serve
+# Tambien podemos usar:
+npm start
 ```
+Navega a http://localhost:4200/.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Building y documentación
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Construir para prducción
+Los archivos que se generan de la construcción se almacenan en la carpeta `dist`.
 
 ```bash
-ng generate component component-name
+ng run build
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
+### Generar documentación
+Los archivos que se generan de documentación se almacenan en la carpeta `dist/vinilo-vibes/browser/documentation`
 ```bash
-ng generate --help
+ng run docs
 ```
 
-## Building
+## Variables de entorno necesarias
+Las variables de entorno ya se proporcionan dentro del código en el archivo `src/environments/environment.ts`
 
-To build the project run:
+## Cuentas de prueba
 
-```bash
-ng build
-```
+| Rol   | Email              | Password   |
+|-------|--------------------|------------|
+| Admin | admin@example.com  | Admin123   |
+| User  | user@example.com   | User123    |
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## URL de despliegue
 
-## Running unit tests
+### Aplicación en produccion
+https://vinilo-vibes.vercel.app/
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+### Documentación
+https://vinilo-vibes.vercel.app/documentation/index.html
