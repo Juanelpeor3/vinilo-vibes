@@ -5,7 +5,7 @@
 
     <div class="item-details">
         <h3 class="title">{{ item().title }}</h3>
-        <p class="subtitle">Precio: {{ item().price}} € x {{ item().quantity }}</p>
+        <p class="subtitle">Precio: {{ item().price}} €</p>
         <div class="quantity-selector">
             <button mat-icon-button (click)="cartService.updateQuantity(item().id, -1)"
                 [disabled]="item().quantity <= 1">
@@ -22,7 +22,7 @@
     </div>
 
     <div class="actions">
-        <span class="subtotal-text">Subtotal</span>
+        <span class="subtotal-text">Subtotal:</span>
         <span class="subtotal-amount">{{ Math.round((item().price * item().quantity)*100)/100 }} €</span>
 
         <button mat-icon-button class="delete-btn" (click)="cartService.removeItem(item().id)">
