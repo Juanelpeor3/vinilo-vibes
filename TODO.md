@@ -10,7 +10,7 @@
 
 * [x] 1\. Formulario de registro con: nombre, email, contraseña, confirmar contraseña
 * [x] 2\. Validaciones básicas: email válido, contraseña mínimo 6 caracteres, contraseñas coinciden
-* [ ] 3\. Registro exitoso genera JWT y redirige al dashboard
+* [x] 3\. Registro exitoso genera JWT y redirige al dashboard
 
 **Login de Usuarios**
 
@@ -80,7 +80,7 @@
 
 **Navegación**
 
-* [ ] 21\. **Navbar** con navegación dinámica según estado de autenticación:
+* [x] 21\. **Navbar** con navegación dinámica según estado de autenticación:
   * Logo/nombre de la aplicación
   * Enlaces públicos (Home)
   * Enlaces privados (Dashboard, Lista) si autenticado
@@ -118,7 +118,7 @@
 
 **Interceptores**
 
-* [ ] 33\. **AuthInterceptor**: Añade token JWT automáticamente a todas las peticiones HTTP
+* [x] 33\. **AuthInterceptor**: Añade token JWT automáticamente a todas las peticiones HTTP
 
 **Estado Reactivo**
 
