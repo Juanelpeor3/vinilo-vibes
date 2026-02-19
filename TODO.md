@@ -109,7 +109,7 @@
 **Feedback Visual**
 
 * [x] 29\. **Loaders** durante peticiones HTTP (spinner o skeleton)
-* [ ] 30\. **Mensajes de éxito/error** en operaciones CRUD
+* [x] 30\. **Mensajes de éxito/error** en operaciones CRUD
 
 **Servicios Angular**
 
