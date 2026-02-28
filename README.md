@@ -79,7 +79,7 @@ Las variables de entorno ya se proporcionan dentro del código en el archivo `sr
 
 | Rol   | Email              | Password   |
 |-------|--------------------|------------|
-| Admin | admin@example.com  | Admin123   |
+| ~~Admin~~ User | admin@example.com  | Admin123   |
 | User  | user@example.com   | User123    |
 
 ## URL de despliegue
