@@ -4,19 +4,26 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    gap: 1.5rem;
+    gap: 0.25rem;
     background-color: #fefefe;
-    padding: 0.7rem 0rem;
-    border-top: 1px solid #b6b6b6;
-    border-bottom: 1px solid #b6b6b6;
-    border-width: 0.5px;
+    padding: 0.6rem 1.5rem;
+    border-bottom: 1px solid #ebebeb;
 }
 
 a {
     text-decoration: none;
-    color: #1f1f1f;
+    color: #555555;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 20px;
+    transition: background-color 0.18s ease, color 0.18s ease;
 }
 
 a:hover {
-    text-decoration: underline;
+    text-decoration: none;
+    background-color: #f0f0f0;
+    color: #1a1a1a;
 }

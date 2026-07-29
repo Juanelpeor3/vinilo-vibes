@@ -2,7 +2,7 @@ nav {
     /* Posicionar el nav para que continue con el scroll */
     position: fixed;
     top: 0;
-    left: 12;
+    left: 0;
     width: 100%;
     height: 70px;
     box-sizing: border-box;
@@ -13,6 +13,9 @@ nav {
     align-items: center;
     padding: 0rem 2rem;
     background-color: #fefefe;
+    border-bottom: 1px solid #ebebeb;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.2s ease;
 }
 
 /* Contenedor del Logo */
@@ -28,10 +31,11 @@ nav {
 }
 
 .left-part p {
-    font-weight: bold;
-    font-size: 1.2rem;
+    font-weight: 700;
+    font-size: 1.15rem;
     margin: 0;
     color: #1f1f1f;
+    letter-spacing: -0.01em;
 }
 
 .right-part button {
@@ -39,21 +43,40 @@ nav {
     border: none;
     color: #666666;
     cursor: pointer;
+    transition: color 0.2s ease, transform 0.15s ease;
+    border-radius: 50%;
+    padding: 6px;
+}
+
+.right-part button:hover {
+    color: #1a1a1a;
+    transform: scale(1.1);
 }
 
 .right-part mat-icon {
     color: #666666;
     cursor: pointer;
+    font-size: 22px;
+    width: 22px;
+    height: 22px;
 }
 
 /* Contenedor de Iconos */
 .right-part {
     display: flex;
-    gap: 10px;
+    gap: 4px;
+    align-items: center;
 }
 
 .right-part mat-icon:hover {
     color: #0a0a0a;
+}
+
+.left-part a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: transform 0.2s ease;
 }
 
 .left-part a:hover {

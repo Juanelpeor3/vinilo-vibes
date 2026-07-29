@@ -1,15 +1,20 @@
 /* Estilos para todas las cards */
 mat-card {
-    background-color: #ebebeb;
+    background-color: #f5f5f5;
     overflow: hidden;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     height: 490px;
+    border-radius: 10px !important;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
 }
 
 mat-card:hover {
-    background-color: #e0e0e0;
+    background-color: #efefef;
+    transform: translateY(-5px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12) !important;
 }
 
 /* Mismo tamaño para todas las Imagenes */
@@ -17,4 +22,29 @@ mat-card img {
     width: 100%;
     height: 320px;
     object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+mat-card:hover img {
+    transform: scale(1.03);
+}
+
+/* Precio */
+mat-card .price {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+    letter-spacing: -0.01em;
+}
+
+mat-card mat-card-title {
+    font-size: 1rem !important;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+mat-card mat-card-subtitle {
+    font-size: 0.85rem !important;
+    color: #666666;
 }

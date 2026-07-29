@@ -5,42 +5,53 @@
 </div>
 } @else {
 <div class="profile-container">
-    <mat-card class="user-card">
-        <mat-card-header>
-            <mat-card-title>Información de la cuenta</mat-card-title>
-        </mat-card-header>
+    <div class="profile-card">
 
-        <mat-card-content>
-            <div class="info-row">
-                <strong>Nombre:</strong> <span>{{ profile()?.name }}</span>
+        <div class="profile-header">
+            <div class="avatar">{{ profile()?.name?.charAt(0)?.toUpperCase() }}</div>
+            <div class="header-text">
+                <h2 class="profile-name">{{ profile()?.name }}</h2>
+                <span class="role-badge" [class.admin]="profile()?.role === 'admin'">{{ profile()?.role }}</span>
             </div>
-            <div class="info-row">
-                <strong>Email:</strong> <span>{{ profile()?.email }}</span>
-            </div>
-            <div class="info-row">
-                <strong>Rol:</strong> <span class="badge">{{ profile()?.role }}</span>
-            </div>
+        </div>
 
+        <div class="divider"></div>
+
+        <div class="info-section">
+            <div class="info-field">
+                <span class="field-label">Nombre</span>
+                <span class="field-value">{{ profile()?.name }}</span>
+            </div>
+            <div class="info-field">
+                <span class="field-label">Correo electrónico</span>
+                <span class="field-value">{{ profile()?.email }}</span>
+            </div>
+            <div class="info-field">
+                <span class="field-label">Rol</span>
+                <span class="field-value capitalize">{{ profile()?.role }}</span>
+            </div>
+        </div>
+
+        @if(profile()?.role === 'admin') {
+        <div class="admin-banner">
+            <mat-icon>admin_panel_settings</mat-icon>
+            <p>Tienes acceso al panel de administración</p>
+        </div>
+        }
+
+        <div class="actions">
             @if(profile()?.role === 'admin') {
-            <div class="admin-banner">
-                <mat-icon>admin_panel_settings</mat-icon>
-                <p>¡Eres un administrador!</p>
-            </div>
-            }
-        </mat-card-content>
-
-        <mat-card-actions>
-            @if(profile()?.role === 'admin') {
-            <button matButton="filled" (click)="navigateToAdmin()">
+            <button class="btn-secondary" (click)="navigateToAdmin()">
                 <mat-icon>dashboard</mat-icon>
                 Dashboard
             </button>
             }
-            <button matButton="filled" color="warn" (click)="signOut()">
+            <button class="btn-danger" (click)="signOut()">
                 <mat-icon>logout</mat-icon>
                 Cerrar Sesión
             </button>
-        </mat-card-actions>
-    </mat-card>
+        </div>
+
+    </div>
 </div>
 }
