@@ -17,7 +17,7 @@ import { CartService } from '../../services/cart/cart';
   styleUrl: './profile.scss',
 })
 export class Profile {
-  cartService=inject(CartService);
+  cartService = inject(CartService);
   profileService = inject(ProfileService);
   constructor(private router: Router) { }
   profile = signal<any>(null);

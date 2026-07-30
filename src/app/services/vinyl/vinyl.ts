@@ -52,6 +52,23 @@ export class VinylService {
    * @param genreId - ID del género musical.
    * @returns Lista de vinilos que pertenecen al género indicado.
    */
+  /**
+   * Busca vinilos cuyo título o artista contengan el texto indicado.
+   * @param query - Texto a buscar (insensible a mayúsculas).
+   * @returns Lista de vinilos que coinciden con la búsqueda.
+   */
+  async search(query: string): Promise<Vinyl[]> {
+    const { data, error } = await supabase
+      .from("vinyls")
+      .select("*, ratings(*)")
+      .or(`title.ilike.%${query}%,artist.ilike.%${query}%`)
+      .order("id", { ascending: true });
+    if (error) {
+      return [];
+    }
+    return data as Vinyl[];
+  }
+
   async getByGenreId(genreId: string): Promise<Vinyl[]> {
     const { data, error } = await supabase
       .from("vinyls")

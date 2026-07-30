@@ -29,27 +29,38 @@ export class VinylList {
   vinyls = signal<Vinyl[]>([]);
   isLoading = signal(true);
   notFound = signal(false);
-
   currentName = signal<string>("");
-  async ngOnInit() {
+
+  ngOnInit() {
     const genreId = this.route.snapshot.paramMap.get('genreId');
-    // Si hay un genreId, obtenemos los vinilos de ese género específico, de lo contrario, obtenemos todos los vinilos
+
     if (genreId) {
-      if (genreId && !this.genre_names[genreId]) {
-        this.notFound.set(true); // O a una página de error
+      if (!this.genre_names[genreId]) {
+        this.notFound.set(true);
         return;
       }
-      // Con el genreId, obtenemos los vinilos de ese género específico
       this.titleService.setTitle(`${this.genre_names[genreId]} | Vinilo Vibes`);
       this.currentName.set(`Vinilos de ${this.genre_names[genreId]}:`);
-
-      this.vinyls.set(await this.vinylService.getByGenreId(genreId));
-      this.isLoading.set(false);
-    }
-    else {
-      this.vinyls.set(await this.vinylService.getAll());
-      this.isLoading.set(false);
-      this.currentName.set("Todos los Vinilos disponibles:");
+      this.vinylService.getByGenreId(genreId).then(data => {
+        this.vinyls.set(data);
+        this.isLoading.set(false);
+      });
+    } else {
+      // Reacciona a cambios en el query param ?q= (búsquedas sucesivas sin recargar)
+      this.route.queryParamMap.subscribe(async params => {
+        this.isLoading.set(true);
+        const q = params.get('q');
+        if (q) {
+          this.titleService.setTitle(`"${q}" | Vinilo Vibes`);
+          this.currentName.set(`Resultados para "${q}":`);
+          this.vinyls.set(await this.vinylService.search(q));
+        } else {
+          this.titleService.setTitle('Vinilo Vibes');
+          this.currentName.set('Todos los Vinilos disponibles:');
+          this.vinyls.set(await this.vinylService.getAll());
+        }
+        this.isLoading.set(false);
+      });
     }
   }
 }

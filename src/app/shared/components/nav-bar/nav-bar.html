@@ -1,21 +1,32 @@
 <nav>
     <div class="left-part">
-        <a href="/">
+        <a routerLink="/">
             <img src="/webicon.svg" alt="Vinilo Vibes Logo">
         </a>
+        @if (!searchOpen) {
         <p>Vinilo Vibes</p>
+        }
     </div>
+
+    @if (searchOpen) {
+    <div class="search-bar">
+        <mat-icon class="search-icon">search</mat-icon>
+        <input #searchInput type="text" class="search-input" placeholder="Buscar por título o artista..."
+            [(ngModel)]="searchQuery" (keydown.enter)="doSearch()" (keydown.escape)="closeSearch()">
+    </div>
+    }
+
     <div class="right-part">
         <button matIconButton routerLink="/profile" aria-label="Ir a tu perfil">
             <mat-icon>person</mat-icon>
         </button>
-        <button matIconButton routerLink="/" aria-label="Buscar vinilos">
-            <mat-icon>search</mat-icon>
+        <button matIconButton (click)="toggleSearch()"
+            [attr.aria-label]="searchOpen ? 'Cerrar búsqueda' : 'Buscar vinilos'">
+            <mat-icon>{{ searchOpen ? 'close' : 'search' }}</mat-icon>
         </button>
         <button matIconButton routerLink="/cart" aria-label="Ver carrito de compras">
             <mat-icon [matBadge]="cartService.cartCount()" [matBadgeHidden]="cartService.cartCount() === 0"
                 aria-hidden="false">shopping_bag</mat-icon>
         </button>
     </div>
-
 </nav>

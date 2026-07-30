@@ -82,3 +82,38 @@ nav {
 .left-part a:hover {
     transform: scale(1.05);
 }
+
+/* Barra de búsqueda */
+.search-bar {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 1rem;
+    max-width: 480px;
+    border-bottom: 1.5px solid #1a1a1a;
+    margin: 0 1rem;
+}
+
+.search-icon {
+    color: #888888;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+.search-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: "Poppins", "Roboto", sans-serif;
+    font-size: 0.95rem;
+    color: #1a1a1a;
+    padding: 6px 0;
+}
+
+.search-input::placeholder {
+    color: #bbbbbb;
+}
