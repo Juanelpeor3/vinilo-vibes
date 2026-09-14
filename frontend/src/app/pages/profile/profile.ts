@@ -12,7 +12,7 @@ import { CartService } from '../../services/cart/cart';
 
 @Component({
   selector: 'app-profile',
-  imports: [CommonModule, MatButtonModule, MatCard, MatCardHeader, MatCardContent, MatCardActions, MatCardTitle, MatIconModule, RouterModule, MatMenuModule, MatProgressSpinner],
+  imports: [CommonModule, MatButtonModule, MatIconModule, RouterModule, MatMenuModule, MatProgressSpinner],
   templateUrl: './profile.html',
   styleUrl: './profile.scss',
 })
