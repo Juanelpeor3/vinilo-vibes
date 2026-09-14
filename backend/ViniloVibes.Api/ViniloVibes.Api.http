@@ -1,0 +1,6 @@
+@ViniloVibes.Api_HostAddress = http://localhost:5196
+
+GET {{ViniloVibes.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
