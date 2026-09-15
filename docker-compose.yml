@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgres:18-alpine
+    container_name: vinilovibes-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: vinilovibes
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: vinilovibes-api
+    restart: unless-stopped
+    ports:
+      - "5000:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=vinilovibes;Username=postgres;Password=postgres
+    depends_on:
+      - db
+
+volumes:
+  pgdata:
