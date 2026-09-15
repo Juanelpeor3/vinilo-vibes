@@ -1,4 +1,11 @@
+using Microsoft.EntityFrameworkCore;
+using ViniloVibes.Api.Data;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Database
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Controllers
 builder.Services.AddControllers();
