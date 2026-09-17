@@ -91,7 +91,9 @@ public class VinylService : IVinylService
             Stock = vinyl.Stock,
             ReleaseYear = vinyl.ReleaseYear,
             GenreId = vinyl.GenreId,
-            GenreName = vinyl.Genre?.Name ?? string.Empty
+            GenreName = vinyl.Genre?.Name ?? string.Empty,
+            AverageRating = vinyl.Ratings.Count > 0 ? Math.Round(vinyl.Ratings.Average(r => r.Value), 1) : null,
+            RatingCount = vinyl.Ratings.Count
         };
     }
 }

@@ -12,4 +12,6 @@ public class VinylDto
     public int? ReleaseYear { get; set; }
     public int GenreId { get; set; }
     public string GenreName { get; set; } = string.Empty;
+    public double? AverageRating { get; set; }
+    public int RatingCount { get; set; }
 }

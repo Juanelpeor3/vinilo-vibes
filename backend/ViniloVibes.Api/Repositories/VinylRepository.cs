@@ -18,6 +18,7 @@ public class VinylRepository : IVinylRepository
     {
         return await _context.Vinyls
             .Include(v => v.Genre)
+            .Include(v => v.Ratings)
             .ToListAsync();
     }
 
@@ -25,6 +26,7 @@ public class VinylRepository : IVinylRepository
     {
         return await _context.Vinyls
             .Include(v => v.Genre)
+            .Include(v => v.Ratings)
             .FirstOrDefaultAsync(v => v.Id == id);
     }
 
@@ -32,6 +34,7 @@ public class VinylRepository : IVinylRepository
     {
         return await _context.Vinyls
             .Include(v => v.Genre)
+            .Include(v => v.Ratings)
             .Where(v => v.GenreId == genreId)
             .ToListAsync();
     }
@@ -43,6 +46,7 @@ public class VinylRepository : IVinylRepository
 
         return await _context.Vinyls
             .Include(v => v.Genre)
+            .Include(v => v.Ratings)
             .FirstAsync(v => v.Id == vinyl.Id);
     }
 
@@ -64,6 +68,7 @@ public class VinylRepository : IVinylRepository
 
         return await _context.Vinyls
             .Include(v => v.Genre)
+            .Include(v => v.Ratings)
             .FirstAsync(v => v.Id == id);
     }
 

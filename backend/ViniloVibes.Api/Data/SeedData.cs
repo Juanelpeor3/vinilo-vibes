@@ -1,12 +1,16 @@
+using Microsoft.AspNetCore.Identity;
 using ViniloVibes.Api.Models;
 
 namespace ViniloVibes.Api.Data;
 
 public static class SeedData
 {
-    public static async Task SeedAsync(AppDbContext db)
+    public static async Task SeedAsync(AppDbContext db, UserManager<ApplicationUser> userManager)
     {
         if (db.Genres.Any()) return;
+
+        var admin = await userManager.FindByEmailAsync("admin@example.com");
+        var adminId = admin!.Id;
 
         var rock = new Genre { Name = "Rock" };
         var jazz = new Genre { Name = "Jazz" };
@@ -69,6 +73,33 @@ public static class SeedData
         };
 
         db.Vinyls.AddRange(vinyls);
+        await db.SaveChangesAsync();
+
+        // Ratings (from Supabase data, all assigned to admin)
+        var ratings = new Rating[]
+        {
+            new() { UserId = adminId, VinylId = vinyls[0].Id, Value = 4 },  // Abbey Road (avg of 5+2)
+            new() { UserId = adminId, VinylId = vinyls[1].Id, Value = 4 },  // Dark Side of the Moon
+            new() { UserId = adminId, VinylId = vinyls[3].Id, Value = 3 },  // Nevermind
+            new() { UserId = adminId, VinylId = vinyls[4].Id, Value = 2 },  // Velvet Underground
+            new() { UserId = adminId, VinylId = vinyls[5].Id, Value = 5 },  // Fetch the Bolt Cutters
+            new() { UserId = adminId, VinylId = vinyls[7].Id, Value = 4 },  // Kind of Blue
+            new() { UserId = adminId, VinylId = vinyls[8].Id, Value = 4 },  // Blue Train
+            new() { UserId = adminId, VinylId = vinyls[9].Id, Value = 1 },  // Time Out
+            new() { UserId = adminId, VinylId = vinyls[10].Id, Value = 1 }, // Head Hunters
+            new() { UserId = adminId, VinylId = vinyls[11].Id, Value = 5 }, // We Are
+            new() { UserId = adminId, VinylId = vinyls[12].Id, Value = 2 }, // Thriller
+            new() { UserId = adminId, VinylId = vinyls[13].Id, Value = 4 }, // Purple Rain
+            new() { UserId = adminId, VinylId = vinyls[14].Id, Value = 5 }, // Bad
+            new() { UserId = adminId, VinylId = vinyls[27].Id, Value = 5 }, // Miseducation of Lauryn Hill
+            new() { UserId = adminId, VinylId = vinyls[29].Id, Value = 3 }, // Illmatic
+            new() { UserId = adminId, VinylId = vinyls[30].Id, Value = 3 }, // Wu-Tang
+            new() { UserId = adminId, VinylId = vinyls[38].Id, Value = 2 }, // Homework
+            new() { UserId = adminId, VinylId = vinyls[39].Id, Value = 4 }, // Music Has the Right to Children
+            new() { UserId = adminId, VinylId = vinyls[40].Id, Value = 2 }, // Suddenly
+        };
+
+        db.Ratings.AddRange(ratings);
         await db.SaveChangesAsync();
     }
 }
