@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using ViniloVibes.Api.Data;
 using ViniloVibes.Api.Models;
+using ViniloVibes.Api.Repositories;
+using ViniloVibes.Api.Repositories.Interfaces;
 using ViniloVibes.Api.Services;
 using ViniloVibes.Api.Services.Interfaces;
 
@@ -49,6 +51,12 @@ builder.Services.AddAuthentication(options =>
 
 // Services
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IVinylRepository, VinylRepository>();
+builder.Services.AddScoped<IVinylService, VinylService>();
+builder.Services.AddScoped<ICartRepository, CartRepository>();
+builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 
 // Controllers
 builder.Services.AddControllers();
@@ -88,6 +96,13 @@ using (var scope = app.Services.CreateScope())
         var result = await userManager.CreateAsync(admin, adminPassword);
         if (result.Succeeded)
             await userManager.AddToRoleAsync(admin, "admin");
+    }
+
+    // Seed genres and vinyls (only in Development)
+    if (app.Environment.IsDevelopment())
+    {
+        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        await SeedData.SeedAsync(db);
     }
 }
 
