@@ -1,40 +1,41 @@
-import { Injectable } from '@angular/core';
-import { supabase } from '../../supabase';
+import { Injectable, inject } from '@angular/core';
+import { AuthService } from '../auth/auth';
 
 /**
  * Servicio para la gestión del perfil del usuario y sesión actual.
  * @remarks
- * Este servicio interactúa directamente con el cliente de Supabase para obtener
- * datos de autenticación y metadatos adicionales del usuario desde la tabla `profiles`.
+ * Este servicio interactúa con AuthService para obtener
+ * datos de autenticación y metadatos del usuario.
  */
 @Injectable({
   providedIn: 'root',
 })
 export class ProfileService {
+  private authService = inject(AuthService);
 
   /**
    * Recupera la información detallada del perfil del usuario autenticado.
-   * @remarks
-   * Realiza una consulta a la tabla `profiles` de Supabase seleccionando los campos:
-   * `id`, `name`, `email` y `role`.
-   * @returns Una promesa con los datos del perfil del usuario. 
-   * Se espera un único registro mediante el método `.single()`.
+   * @returns Una promesa con los datos del perfil del usuario.
    */
   async getProfile() {
-    return await supabase
-      .from("profiles")
-      .select("id, name, email, role")
-      .single();
+    const user = this.authService.getUser();
+    if (!user) return { data: null, error: 'Not authenticated' };
+
+    return {
+      data: {
+        id: '',
+        name: user.fullName,
+        email: user.email,
+        role: user.role
+      },
+      error: null
+    };
   }
 
   /**
    * Finaliza la sesión del usuario actual en el dispositivo.
-   * @remarks
-   * Utiliza el método `signOut` de la librería de autenticación de Supabase
-   * para invalidar la sesión local.
-   * @returns Una promesa que se resuelve al completar el proceso de cierre de sesión.
    */
-  async signOut() {
-    await supabase.auth.signOut();
+  signOut() {
+    this.authService.signOut();
   }
 }

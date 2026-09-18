@@ -1,22 +1,41 @@
-import { computed, effect, inject, Injectable, signal } from '@angular/core';
-import { VinylService } from '../vinyl/vinyl';
+import { computed, inject, Injectable, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+import { firstValueFrom } from 'rxjs';
+
+interface CartItem {
+  id: number;
+  vinylId: number;
+  vinylTitle: string;
+  vinylArtist: string;
+  vinylImageUrl?: string;
+  vinylPrice: number;
+  quantity: number;
+}
+
+interface OrderResponse {
+  id: number;
+  total: number;
+  createdAt: string;
+  status: string;
+  items: any[];
+}
 
 /**
  * Servicio encargado de gestionar el carrito de compras de Vinilo Vibes.
- * * @remarks
+ * @remarks
  * Este servicio utiliza **Signals** de Angular para un manejo de estado reactivo y eficiente.
- * Los datos se sincronizan automáticamente con `localStorage` para persistir el carrito
- * tras recargar la página.
+ * Los datos se sincronizan con la API REST del backend.
  */
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
-  /** Servicio de vinilos inyectado para gestionar stock */
-  vinilService = inject(VinylService);
+  private http = inject(HttpClient);
+  private apiUrl = `${environment.apiUrl}/cart`;
 
   /** Lista reactiva de productos en el carrito. */
-  cartItems = signal<any[]>(this.loadCartFromStorage());
+  cartItems = signal<CartItem[]>([]);
 
   /**
    * Cantidad total de productos individuales en el carrito.
@@ -31,102 +50,92 @@ export class CartService {
    * @remarks El valor se redondea a dos decimales para evitar errores de precisión de punto flotante.
    */
   totalPrice = computed(() => {
-    const total = this.cartItems().reduce((acc, item) => acc + (item.price * item.quantity), 0);
+    const total = this.cartItems().reduce((acc, item) => acc + (item.vinylPrice * item.quantity), 0);
     return Math.round(total * 100) / 100;
   });
 
-  constructor() {
-    /**
-     * Efecto que guarda automáticamente el estado del carrito en el almacenamiento local
-     * cada vez que la señal `cartItems` sufre un cambio.
-     */
-    effect(() => {
-      localStorage.setItem('cart', JSON.stringify(this.cartItems()));
-    });
-  }
-
   /**
-   * Recupera los datos del carrito guardados en el navegador.
-   * @returns Un array con los items recuperados o un array vacío si no hay datos.
+   * Carga los items del carrito desde la API.
    */
-  private loadCartFromStorage() {
-    const stored = localStorage.getItem('cart');
-    return stored ? JSON.parse(stored) : [];
+  async loadCart() {
+    try {
+      const items = await firstValueFrom(this.http.get<CartItem[]>(this.apiUrl));
+      this.cartItems.set(items);
+    } catch {
+      this.cartItems.set([]);
+    }
   }
 
   /**
    * Añade un vinilo al carrito o incrementa su cantidad si ya existe.
-   * * @param vinyl - El objeto del vinilo que se desea añadir.
-   * @example
-   * ```ts
-   * this.cartService.addToCart(newVinyl);
-   * ```
+   * @param vinyl - El objeto del vinilo que se desea añadir.
    */
-  addToCart(vinyl: any) {
-    // Actualiza la signal
-    this.cartItems.update(currentCart => {
-      const existingItem = currentCart.find(item => item.id === vinyl.id);
-
-      if (existingItem) {
-        // Si existe, incrementamos los items
-        return currentCart.map(item =>
-          item.id === vinyl.id ? { ...item, quantity: item.quantity + 1 } : item
-        );
-      } else {
-        // Si no existe, lo añadimos al carrito
-        return [...currentCart, { ...vinyl, quantity: 1 }];
-      }
-    });
+  async addToCart(vinyl: any) {
+    try {
+      await firstValueFrom(
+        this.http.post(this.apiUrl, { vinylId: vinyl.id, quantity: 1 })
+      );
+      await this.loadCart();
+    } catch {
+      // fallback silencioso
+    }
   }
 
   /** Limpia todos los elementos del carrito de compras. */
-  clearCart() {
-    this.cartItems.set([]);
+  async clearCart() {
+    try {
+      await firstValueFrom(this.http.delete(this.apiUrl));
+      this.cartItems.set([]);
+    } catch {
+      this.cartItems.set([]);
+    }
   }
 
   /**
    * Elimina un producto específico del carrito basándose en su identificador.
-   * @param productId - ID único del producto a eliminar.
+   * @param vinylId - ID del vinilo a eliminar.
    */
-  removeItem(productId: string) {
-    this.cartItems.update(items => items.filter(i => i.id !== productId));
+  async removeItem(vinylId: number) {
+    try {
+      await firstValueFrom(this.http.delete(`${this.apiUrl}/${vinylId}`));
+      await this.loadCart();
+    } catch {
+      // fallback silencioso
+    }
   }
 
   /**
    * Actualiza la cantidad de un producto existente.
-   * * @param id - ID del producto a modificar.
-   * @param delta - Cantidad a sumar (positivo) o restar (negativo).
-   * @remarks La cantidad mínima permitida es 1.
+   * @param vinylId - ID del vinilo a modificar.
+   * @param quantity - Nueva cantidad deseada.
    */
-  updateQuantity(id: number, delta: number) {
-    this.cartItems.update(items => {
-      return items.map(item => {
-        if (item.id === id) {
-          const newQuantity = item.quantity + delta;
-          // Evitamos que la cantidad sea menor a 1
-          return { ...item, quantity: newQuantity > 0 ? newQuantity : 1 };
-        }
-        return item;
-      });
-    });
+  async updateQuantity(vinylId: number, quantity: number) {
+    try {
+      await firstValueFrom(
+        this.http.put(`${this.apiUrl}/${vinylId}`, { quantity })
+      );
+      await this.loadCart();
+    } catch {
+      // fallback silencioso
+    }
   }
 
   /**
    * Procesa la compra de los productos actuales.
-   * * @remarks
-   * Este método es asíncrono ya que coordina múltiples llamadas al `VinylService`
-   * para reducir el stock en la base de datos de Supabase. Una vez completado,
-   * vacía el carrito.
-   * * @returns Promesa que se resuelve cuando el stock ha sido actualizado.
+   * @remarks
+   * Envía la orden al backend, que valida stock, crea la orden,
+   * descuenta stock y vacía el carrito.
+   * @returns La orden creada o `null` en caso de fallo.
    */
-  async checkoutProducts() {
-    const itemsToBuy = this.cartItems();
-
-    const updates = itemsToBuy.map(item =>
-      this.vinilService.decreaseStock(item.id, item.quantity)
-    );
-
-    await Promise.all(updates);
-    this.clearCart();
+  async checkoutProducts(): Promise<OrderResponse | null> {
+    try {
+      const order = await firstValueFrom(
+        this.http.post<OrderResponse>(`${environment.apiUrl}/orders/checkout`, {})
+      );
+      this.cartItems.set([]);
+      return order;
+    } catch {
+      return null;
+    }
   }
 }

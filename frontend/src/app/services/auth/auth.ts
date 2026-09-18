@@ -1,40 +1,35 @@
-import { Injectable } from '@angular/core';
-import { supabase } from '../../supabase';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+import { firstValueFrom } from 'rxjs';
+
+interface AuthResponse {
+  token: string;
+  email: string;
+  fullName: string;
+  role: string;
+}
 
 /**
  * Servicio de autenticación de la aplicación.
  *
  * @remarks
  * Encapsula todas las operaciones relacionadas con autenticación
- * usando Supabase como proveedor.
+ * usando la API REST del backend.
  *
  * Este servicio maneja:
  * - Registro de usuarios
  * - Inicio y cierre de sesión
- * - Obtención de sesión actual
- * - Escucha de cambios de autenticación
- * - Obtención del rol del usuario desde la tabla `profiles`
+ * - Gestión del token JWT en localStorage
+ * - Obtención del rol del usuario
  *
  */
-
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  /**
-   * Registra un nuevo usuario con email y contraseña.
-   *
-   * @param email - Correo electrónico del usuario.
-   * @param password - Contraseña del usuario.
-   * @returns Promesa con la respuesta de Supabase.
-   *
-   */
-  signUp(email: string, password: string) {
-    return supabase.auth.signUp({
-      email,
-      password
-    });
-  }
+  private http = inject(HttpClient);
+  private apiUrl = `${environment.apiUrl}/auth`;
 
   /**
    * Inicia sesión con email y contraseña.
@@ -42,52 +37,58 @@ export class AuthService {
    * @param email - Correo electrónico del usuario.
    * @param password - Contraseña del usuario.
    * @returns Promesa con el resultado de autenticación.
-   * 
+   *
    */
-  signIn(email: string, password: string) {
-    return supabase.auth.signInWithPassword({
-      email,
-      password
-    });
+  async signIn(email: string, password: string): Promise<AuthResponse> {
+    const response = await firstValueFrom(
+      this.http.post<AuthResponse>(`${this.apiUrl}/login`, { email, password })
+    );
+    localStorage.setItem('token', response.token);
+    localStorage.setItem('user', JSON.stringify(response));
+    return response;
+  }
+
+  /**
+   * Registra un nuevo usuario con email, contraseña y nombre.
+   *
+   * @param email - Correo electrónico del usuario.
+   * @param password - Contraseña del usuario.
+   * @param fullName - Nombre completo del usuario.
+   * @param role - Rol del usuario (por defecto 'user').
+   * @returns Promesa con la respuesta de registro.
+   *
+   */
+  async signUp(email: string, password: string, fullName: string, role: string = 'user'): Promise<AuthResponse> {
+    const response = await firstValueFrom(
+      this.http.post<AuthResponse>(`${this.apiUrl}/register`, { email, password, fullName, role })
+    );
+    return response;
   }
 
   /**
    * Cierra la sesión actual del usuario.
-   *
-   * @returns Promesa que indica el resultado del cierre de sesión.
    */
   signOut() {
-    return supabase.auth.signOut();
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
   }
 
   /**
-   * Obtiene la sesión actual almacenada.
+   * Obtiene el token JWT almacenado.
    *
-   * @returns Promesa con la sesión activa o `null` si no existe.
+   * @returns El token JWT o `null` si no existe.
    */
-
-  getSession() {
-    return supabase.auth.getSession();
-  }
-
-  /**
-   * Escucha cambios en el estado de autenticación.
-   *
-   * @param callback - Función que se ejecuta cuando cambia el estado de auth.
-   * @returns Suscripción al listener de Supabase.
-   */
-  onAuthChange(callback: any) {
-    return supabase.auth.onAuthStateChange(callback);
+  getToken(): string | null {
+    return localStorage.getItem('token');
   }
 
   /**
    * Verifica si existe una sesión activa.
    *
-   * @returns Promesa con la información de sesión actual.
+   * @returns `true` si hay un token almacenado.
    */
-  async checkAuth() {
-    const data = await supabase.auth.getSession();
-    return data;
+  isAuthenticated(): boolean {
+    return !!this.getToken();
   }
 
   /**
@@ -95,36 +96,19 @@ export class AuthService {
    *
    * @returns El objeto usuario o `null` si no hay sesión activa.
    */
-  async getUser() {
-    const { data } = await supabase.auth.getUser();
-    return data.user;
+  getUser(): AuthResponse | null {
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user) : null;
   }
 
   /**
-   * Obtiene el rol del usuario desde la tabla `profiles`.
+   * Obtiene el rol del usuario autenticado.
    *
-   * @remarks
-   * El ID del usuario autenticado debe coincidir con el ID
-   * almacenado en la tabla `profiles`.
-   *
-   * @returns El rol del usuario (`admin`, `user`.)
-   * o `null` si no está autenticado o no existe perfil.
+   * @returns El rol del usuario (`admin`, `user`)
+   * o `null` si no está autenticado.
    */
-  async getUserRole(): Promise<string | null> {
-    const user = await this.getUser();
-
-    if (!user) return null;
-
-    const { data, error } = await supabase
-      .from("profiles")
-      .select("role")
-      .eq("id", user.id)
-      .single();
-
-    if (error || !data) {
-      return null;
-    }
-
-    return data.role;
+  getUserRole(): string | null {
+    const user = this.getUser();
+    return user?.role ?? null;
   }
 }
