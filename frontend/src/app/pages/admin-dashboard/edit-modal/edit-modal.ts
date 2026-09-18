@@ -21,10 +21,10 @@ export class EditModal {
     this.editVinylForm = this.fb.group({
       title: ['', Validators.required],
       artist: ['', Validators.required],
-      image_url: [''],
+      imageUrl: [''],
       description: [''],
       price: [null, [Validators.required, Validators.min(0)]],
-      genre_id: [null, Validators.required],
+      genreId: [null, Validators.required],
       stock: [0, Validators.required]
     });
   }

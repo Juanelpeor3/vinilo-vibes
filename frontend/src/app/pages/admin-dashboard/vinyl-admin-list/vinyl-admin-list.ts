@@ -20,14 +20,6 @@ export class VinylAdminList {
   private vinylService = inject(VinylService);
   constructor(private route: ActivatedRoute, private titleService: Title, private dialog: MatDialog) { }
 
-  genre_names: Record<string, string> = {
-    '1': 'Rock',
-    '2': 'Jazz',
-    '3': 'Pop',
-    '4': 'Hiphop',
-    '5': 'Electrónica'
-  };
-
   vinyls = signal<Vinyl[]>([]);
   isLoading = signal(true);
   notFound = signal(false);
@@ -40,7 +32,6 @@ export class VinylAdminList {
     this.currentName.set("Todos los Vinilos disponibles:");
   }
 
-  // Método para abrir el modal de creación de vinilo
   openCreateModal() {
     const dialogRef = this.dialog.open(CreateModal, {
       width: '450px',

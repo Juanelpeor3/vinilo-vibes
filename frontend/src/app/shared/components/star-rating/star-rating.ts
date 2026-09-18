@@ -1,6 +1,5 @@
-import { Component, computed, input, Input } from '@angular/core';
-import { Rating } from '../../models/rating-model';
-import { MatIcon, MatIconModule } from "@angular/material/icon";
+import { Component, computed, input } from '@angular/core';
+import { MatIconModule } from "@angular/material/icon";
 
 @Component({
   selector: 'app-star-rating',
@@ -9,16 +8,11 @@ import { MatIcon, MatIconModule } from "@angular/material/icon";
   styleUrl: './star-rating.scss',
 })
 export class StarRating {
-  ratings = input<Rating[]>([]);
+  averageRating = input<number | null>(null);
+  ratingCount = input<number>(0);
 
-  // Solo si ratings cambia
-  average = computed(() => {
-    const list = this.ratings();
-    if (list.length === 0) return 0;
-
-    const total = list.reduce((acc, curr) => acc + curr.rating, 0);
-    return total / list.length;
+  displayRating = computed(() => {
+    const avg = this.averageRating();
+    return avg !== null ? avg : 0;
   });
-
-  count = computed(() => this.ratings().length);
 }

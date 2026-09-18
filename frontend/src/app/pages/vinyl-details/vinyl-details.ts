@@ -32,14 +32,6 @@ export class VinylDetails {
     private snackBar: MatSnackBar
   ) { }
 
-  genre_names: Record<string, string> = {
-    '1': 'Rock',
-    '2': 'Jazz',
-    '3': 'Pop',
-    '4': 'Hiphop',
-    '5': 'Electrónica'
-  };
-
   vinyl = signal<Vinyl | null>(null);
   isLoading = signal(true);
 
@@ -64,24 +56,21 @@ export class VinylDetails {
   }
 
   async addToCart(vinyl: Vinyl) {
-    const { data } = await this.authService.checkAuth();
-    if (!data.session) {
+    if (!this.authService.isAuthenticated()) {
       this.openWarnModal("Para agregar productos al carrito, debes iniciar sesión", "¿Quieres iniciar sesión ahora?");
       return;
-    } else {
-      this.cartService.addToCart(vinyl);
-      // Se muestra un snackbar de que el producto se ha añadido al carrito
-      const snackBarRef = this.snackBar.open('Producto añadido al carrito', 'VER CARRITO', {
-        duration: 3000, // Tiempo en pantalla
-        horizontalPosition: 'center',
-        verticalPosition: 'bottom'
-      });
-
-      // Si se da al botón se redirige al carrito
-      snackBarRef.onAction().subscribe(() => {
-        this.router.navigate(['/cart']);
-      });
     }
+    this.cartService.addToCart(vinyl);
+    // Se muestra un snackbar de que el producto se ha añadido al carrito
+    const snackBarRef = this.snackBar.open('Producto añadido al carrito', 'VER CARRITO', {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom'
+    });
+
+    snackBarRef.onAction().subscribe(() => {
+      this.router.navigate(['/cart']);
+    });
   }
 
   openWarnModal(title: string, message: string) {

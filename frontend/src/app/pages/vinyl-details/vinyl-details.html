@@ -6,14 +6,15 @@
 } @else if (vinyl(); as data) {
 <div class="vinyl-grid">
   <div class="image-section">
-    <img [src]="data.image_url" [alt]="data.title" class="vinyl-cover">
+    <img [src]="data.imageUrl" [alt]="data.title" class="vinyl-cover">
   </div>
 
   <div class="info-section">
     <header>
       <div class="header-info">
         <span class="label">DISCO DE VINILO</span>
-        <app-star-rating [ratings]="vinyl()?.ratings ?? []"></app-star-rating>
+        <app-star-rating [averageRating]="data.averageRating ?? null"
+          [ratingCount]="data.ratingCount"></app-star-rating>
       </div>
       <h1 class="title">{{ data.title }}</h1>
       <h2 class="artist">{{ data.artist }}</h2>
@@ -27,7 +28,7 @@
     </div>
     <div class="genre">
       <h3>GÉNERO</h3>
-      <p>{{ genre_names[data.genre_id] }}</p>
+      <p>{{ data.genreName }}</p>
     </div>
     <div class="stock">
       <h3>DISPONIBILIDAD</h3>

@@ -22,7 +22,7 @@ export class Register {
   // Validación de formulario en el constructor
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {
     this.registerForm = this.fb.group({
-      name: ["", []],
+      name: ["", [Validators.required]],
       email: ["", [Validators.required, Validators.email]],
       password: ["", [Validators.required, Validators.minLength(6)]],
       confirmPassword: ["", [Validators.required]]
@@ -39,25 +39,22 @@ export class Register {
   async onSubmit() {
     if (this.registerForm.invalid) return;
 
-    let { email, password } = this.registerForm.value;
+    let { name, email, password } = this.registerForm.value;
     email = email?.trim();
     password = password?.trim();
+    name = name?.trim();
 
-    if (!email || !password) {
-      this.error.set("Email o contraseña vacíos");
+    if (!email || !password || !name) {
+      this.error.set("Todos los campos son obligatorios");
       return;
     }
 
     try {
-      const { error } = await this.auth.signUp(email, password);
-      if (error) {
-        this.error.set(error.message);
-        return;
-      }
+      await this.auth.signUp(email, password, name);
       this.error.set(null);
       this.router.navigate(["/auth/login"]);
-    } catch (err) {
-      this.error.set("Error inesperado: " + err);
+    } catch (err: any) {
+      this.error.set(err?.error?.message ?? err?.message ?? "Error al registrar usuario");
     }
   }
 }

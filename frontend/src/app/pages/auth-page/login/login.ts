@@ -35,8 +35,12 @@ export class Login {
   async onSubmit() {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
-      const { error } = await this.auth.signIn(email, password);
-      if (error) { this.error.set(error.message); } else { this.router.navigate(["/"]) };
+      try {
+        await this.auth.signIn(email, password);
+        this.router.navigate(["/"]);
+      } catch (err: any) {
+        this.error.set(err?.error?.message ?? err?.message ?? "Error al iniciar sesión");
+      }
     }
   }
 }

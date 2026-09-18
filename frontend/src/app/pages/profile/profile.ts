@@ -1,5 +1,4 @@
 import { Component, inject, signal } from '@angular/core';
-import { supabase } from '../../supabase';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { Router, RouterModule } from '@angular/router';
