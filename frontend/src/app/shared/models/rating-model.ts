@@ -1,7 +1,7 @@
 export interface Rating {
-    id: string;
-    user_id: string;
-    vinyl_id: string;
-    rating: number;
-    created_at: string;
+    id: number;
+    userId: string;
+    vinylId: number;
+    value: number;
+    createdAt: string;
 }
