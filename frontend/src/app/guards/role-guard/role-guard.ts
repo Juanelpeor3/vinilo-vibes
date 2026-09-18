@@ -11,7 +11,7 @@ import { AuthService } from '../../services/auth/auth';
  *
  * Utiliza AuthService para obtener el rol actual del usuario y
  * Router para redirigir en caso de acceso no autorizado.
- * 
+ *
  *
  * @param route - Información de la ruta que se intenta activar.
  * @param state - Estado actual del router al momento de la navegación.
@@ -34,12 +34,11 @@ import { AuthService } from '../../services/auth/auth';
  * @throws Puede fallar si la propiedad `data.roles` no está definida en la ruta.
  */
 
-export const roleGuard: CanActivateFn = async (route) => {
-
+export const roleGuard: CanActivateFn = (route) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  const userRole = await authService.getUserRole();
+  const userRole = authService.getUserRole();
   const expectedRoles = route.data['roles'] as Array<string>;
 
   if (userRole && expectedRoles.includes(userRole)) {
