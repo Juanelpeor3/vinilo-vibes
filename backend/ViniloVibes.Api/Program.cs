@@ -58,6 +58,17 @@ builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 
+// CORS
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("http://localhost:4200")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 // Controllers
 builder.Services.AddControllers();
 
@@ -83,6 +94,7 @@ using (var scope = app.Services.CreateScope())
     var adminEmail = builder.Configuration["Admin:Email"] ?? "admin@example.com";
     var adminPassword = builder.Configuration["Admin:Password"] ?? "Admin123";
 
+    // Seed admin
     if (await userManager.FindByEmailAsync(adminEmail) is null)
     {
         var admin = new ApplicationUser
@@ -96,6 +108,28 @@ using (var scope = app.Services.CreateScope())
         var result = await userManager.CreateAsync(admin, adminPassword);
         if (result.Succeeded)
             await userManager.AddToRoleAsync(admin, "admin");
+    }
+
+    // Seed user
+    if (app.Environment.IsDevelopment())
+    {
+        var userEmail = builder.Configuration["User:Email"] ?? "user@example.com";
+        var userPassword = builder.Configuration["User:Password"] ?? "User123";
+
+        if (await userManager.FindByEmailAsync(userEmail) is null)
+        {
+            var user = new ApplicationUser
+            {
+                UserName = userEmail,
+                Email = userEmail,
+                FullName = "Usuario",
+                EmailConfirmed = true
+            };
+
+            var userResult = await userManager.CreateAsync(user, userPassword);
+            if (userResult.Succeeded)
+                await userManager.AddToRoleAsync(user, "user");
+        }
     }
 
     // Seed genres and vinyls (only in Development)
@@ -114,6 +148,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();
