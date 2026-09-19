@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="ViniloVibes.Api/ViniloVibes.Api.csproj" />
+  <Project Path="ViniloVibes.Tests/ViniloVibes.Tests.csproj" />
+</Solution>

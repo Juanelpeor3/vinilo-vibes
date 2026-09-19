@@ -28,9 +28,9 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
-      - run: dotnet restore
-      - run: dotnet build --no-restore -c Release
-      - run: dotnet test ViniloVibes.Tests --no-build -c Release --verbosity normal
+      - run: dotnet restore ViniloVibes.slnx
+      - run: dotnet build ViniloVibes.slnx --no-restore -c Release
+      - run: dotnet test ViniloVibes.Tests/ViniloVibes.Tests.csproj --no-build -c Release --verbosity normal
 
   frontend:
     name: Frontend — Build
