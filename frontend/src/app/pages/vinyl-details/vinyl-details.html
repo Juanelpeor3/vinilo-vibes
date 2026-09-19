@@ -1,0 +1,42 @@
+@if (isLoading()) {
+<div class="status-message">
+  <mat-spinner diameter="50"></mat-spinner>
+  <p>Cargando vinilo...</p>
+</div>
+} @else if (vinyl(); as data) {
+<div class="vinyl-grid">
+  <div class="image-section">
+    <img [src]="data.imageUrl" [alt]="data.title" class="vinyl-cover">
+  </div>
+
+  <div class="info-section">
+    <header>
+      <div class="header-info">
+        <span class="label">DISCO DE VINILO</span>
+        <app-star-rating [averageRating]="data.averageRating ?? null"
+          [ratingCount]="data.ratingCount"></app-star-rating>
+      </div>
+      <h1 class="title">{{ data.title }}</h1>
+      <h2 class="artist">{{ data.artist }}</h2>
+    </header>
+
+    <div class="price">{{ data.price }} €</div>
+
+    <div class="description">
+      <h3>DESCRIPCIÓN</h3>
+      <p>{{ data.description }}</p>
+    </div>
+    <div class="genre">
+      <h3>GÉNERO</h3>
+      <p>{{ data.genreName }}</p>
+    </div>
+    <div class="stock">
+      <h3>DISPONIBILIDAD</h3>
+      <app-stock-data [data]="{ stock: data.stock }"></app-stock-data>
+    </div>
+    <button class="btn-buy" (click)="addToCart(data)" [disabled]="data.stock === 0">Añadir al carrito</button>
+  </div>
+</div>
+} @else {
+<app-page-not-found></app-page-not-found>
+}
