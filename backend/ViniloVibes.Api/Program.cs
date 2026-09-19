@@ -120,33 +120,27 @@ using (var scope = app.Services.CreateScope())
     }
 
     // Seed user
-    if (app.Environment.IsDevelopment())
-    {
-        var userEmail = builder.Configuration["User:Email"] ?? "user@example.com";
-        var userPassword = builder.Configuration["User:Password"] ?? "User123";
+    var userEmail = builder.Configuration["User:Email"] ?? "user@example.com";
+    var userPassword = builder.Configuration["User:Password"] ?? "User123";
 
-        if (await userManager.FindByEmailAsync(userEmail) is null)
+    if (await userManager.FindByEmailAsync(userEmail) is null)
+    {
+        var user = new ApplicationUser
         {
-            var user = new ApplicationUser
-            {
-                UserName = userEmail,
-                Email = userEmail,
-                FullName = "Usuario",
-                EmailConfirmed = true
-            };
+            UserName = userEmail,
+            Email = userEmail,
+            FullName = "Usuario",
+            EmailConfirmed = true
+        };
 
-            var userResult = await userManager.CreateAsync(user, userPassword);
-            if (userResult.Succeeded)
-                await userManager.AddToRoleAsync(user, "user");
-        }
+        var userResult = await userManager.CreateAsync(user, userPassword);
+        if (userResult.Succeeded)
+            await userManager.AddToRoleAsync(user, "user");
     }
 
-    // Seed genres and vinyls (only in Development)
-    if (app.Environment.IsDevelopment())
-    {
-        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-        await SeedData.SeedAsync(db, userManager);
-    }
+    // Seed genres and vinyls
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await SeedData.SeedAsync(db, userManager);
 }
 
 // Swagger UI
