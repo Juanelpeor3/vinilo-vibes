@@ -103,7 +103,7 @@ public class AuthServiceTests
     {
         var user = new ApplicationUser
         {
-            Id = 1,
+            Id = "1",
             Email = "test@example.com",
             UserName = "test",
             FullName = "Test User"
@@ -137,7 +137,7 @@ public class AuthServiceTests
     {
         var user = new ApplicationUser
         {
-            Id = 1,
+            Id = "1",
             Email = "test@example.com",
             UserName = "test",
             FullName = "Test User"
@@ -157,7 +157,7 @@ public class AuthServiceTests
     {
         var user = new ApplicationUser
         {
-            Id = 1,
+            Id = "1",
             Email = "admin@example.com",
             UserName = "admin",
             FullName = "Admin"
