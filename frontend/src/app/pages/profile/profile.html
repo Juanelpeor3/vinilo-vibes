@@ -56,5 +56,33 @@
         </div>
 
     </div>
+
+    <div class="orders-card">
+        <h3 class="orders-title">
+            <mat-icon>receipt_long</mat-icon>
+            Historial de pedidos
+        </h3>
+
+        @if (orders().length === 0) {
+        <p class="orders-empty">No tienes pedidos todavía.</p>
+        } @else {
+        <div class="orders-list">
+            @for (order of orders(); track order.id) {
+            <div class="order-item">
+                <div class="order-header">
+                    <span class="order-id">Pedido #{{ order.id }}</span>
+                    <span class="order-status" [class]="order.status">{{ order.status }}</span>
+                </div>
+                <div class="order-details">
+                    <span class="order-date">{{ order.createdAt | date:'dd/MM/yyyy' }}</span>
+                    <span class="order-total">{{ order.total | number:'1.2-2' }} €</span>
+                </div>
+                <span class="order-items">{{ order.itemCount }} {{ order.itemCount === 1 ? 'artículo' : 'artículos'
+                    }}</span>
+            </div>
+            }
+        </div>
+        }
+    </div>
 </div>
 }

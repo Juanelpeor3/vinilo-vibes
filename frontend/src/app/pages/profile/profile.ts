@@ -8,6 +8,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { ProfileService } from '../../services/profile/profile';
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { CartService } from '../../services/cart/cart';
+import { OrderService, OrderSummary } from '../../services/order/order';
 
 @Component({
   selector: 'app-profile',
@@ -18,8 +19,10 @@ import { CartService } from '../../services/cart/cart';
 export class Profile implements OnDestroy {
   cartService = inject(CartService);
   profileService = inject(ProfileService);
+  private orderService = inject(OrderService);
   constructor(private router: Router) { }
   profile = signal<any>(null);
+  orders = signal<OrderSummary[]>([]);
 
   isLoading = signal(true);
   isSlow = signal(false);
@@ -28,11 +31,15 @@ export class Profile implements OnDestroy {
   async ngOnInit() {
     this.slowTimer = setTimeout(() => this.isSlow.set(true), 3000);
 
-    const { data } = await this.profileService.getProfile();
+    const [profileRes, ordersRes] = await Promise.all([
+      this.profileService.getProfile(),
+      this.orderService.getOrders()
+    ]);
 
-    if (data) {
-      this.profile.set(data);
+    if (profileRes.data) {
+      this.profile.set(profileRes.data);
     }
+    this.orders.set(ordersRes);
     this.isLoading.set(false);
     if (this.slowTimer) clearTimeout(this.slowTimer);
     this.isSlow.set(false);
@@ -42,6 +49,7 @@ export class Profile implements OnDestroy {
     if (this.slowTimer) clearTimeout(this.slowTimer);
   }
 
+  // Función para cerrar sesión
   signOut() {
     this.cartService.clearCart();
     this.profileService.signOut();
