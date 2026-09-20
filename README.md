@@ -12,7 +12,6 @@
 <br />
 ![TypeDoc](https://img.shields.io/badge/TypeDoc-406C59?style=for-the-badge&logo=typedoc&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-<br />
 ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 ![Render](https://img.shields.io/badge/Render-000000?style=for-the-badge&logo=render&logoColor=white)
 
@@ -36,7 +35,7 @@ Vinilo Vibes is an online vinyl record store built with an Angular frontend and 
 
 ```
 ┌─────────┐ HTTP/JSON ┌──────────┐ EF Core ┌────────────┐
-│ Angular ├──────────>│ .NET API ├────────>│ PostgreSQL │
+│ Angular ├---------->│ .NET API ├-------->│ PostgreSQL │
 └─────────┘           └──────────┘         └────────────┘
 ```
 
@@ -51,7 +50,7 @@ Controllers  ->  Services  ->  Repositories  ->  DbContext (EF Core)  ->  Postgr
 ### Features
 
 - Vinyl catalog with genre filtering and search
-- Product pages with star ratings
+- Product pages with average star ratings
 - Per-user persistent shopping cart
 - Checkout with stock validation and order generation
 - Order history in user profile
@@ -189,10 +188,10 @@ pnpm start
 | `Jwt__Audience` | Token audience (e.g. `ViniloVibes`) |
 | `Admin__Email` | Admin email |
 | `Admin__Password` | Admin password |
-| `User__Email` | Test user email |
-| `User__Password` | Test user password |
+| `User__Email` | Optional - defaults to `user@example.com` |
+| `User__Password` | Optional - defaults to `User123` |
 
-## Test accounts
+## Test account
 
 | Role |      Email       | Password |
 |------|------------------|----------|
@@ -226,7 +225,7 @@ Generated files are stored in `dist/vinilo-vibes/browser/documentation` and depl
 | TypeDoc | Vercel | https://vinilo-vibes.vercel.app/documentation/index.html |
 | Database | Render PostgreSQL | (internal) |
 
-Both services are deployed automatically on every push to `master`.
+The services are deployed automatically on every push to `master`.
 
 ## License
 

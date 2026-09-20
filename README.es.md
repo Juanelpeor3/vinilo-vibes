@@ -12,7 +12,6 @@
 <br />
 ![TypeDoc](https://img.shields.io/badge/TypeDoc-406C59?style=for-the-badge&logo=typedoc&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-<br />
 ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 ![Render](https://img.shields.io/badge/Render-000000?style=for-the-badge&logo=render&logoColor=white)
 
@@ -51,7 +50,7 @@ Controllers  ->  Services  ->  Repositories  ->  DbContext (EF Core)  ->  Postgr
 ### Funcionalidades
 
 - Catálogo de vinilos con filtrado por género y buscador
-- Fichas de producto con valoraciones (rating con estrellas)
+- Fichas de producto con valoracion media (rating con estrellas)
 - Carrito de compra persistido por usuario
 - Checkout con validación de stock y generación de pedidos
 - Historial de pedidos en el perfil del usuario
@@ -81,7 +80,7 @@ vinilo-vibes/
 ├── frontend/                          # Angular SPA
 │   └── src/
 │       ├── app/
-│       │   ├── pages/                 # Home, catálogo, detalle, carrito, perfil, admin
+│       │   ├── pages/                 # Home, catalogo, detalle, carrito, perfil, admin
 │       │   ├── services/              # Auth, Vinyl, Cart, Order, Profile
 │       │   ├── guards/                # authGuard, roleGuard
 │       │   ├── interceptors/          # JWT auth interceptor
@@ -150,7 +149,7 @@ Navega a `http://localhost:4200`.
 docker-compose up
 ```
 
-Levantamos el frontend y navegaremos a `http://localhost:4200`.
+Levantamos el frontend y navegamos a `http://localhost:4200`.
 ```bash
 cd frontend
 pnpm install
@@ -189,10 +188,10 @@ pnpm start
 | `Jwt__Audience` | Audiencia del token (ej. `ViniloVibes`) |
 | `Admin__Email` | Email del administrador |
 | `Admin__Password` | Password del administrador |
-| `User__Email` | Email del usuario de prueba |
-| `User__Password` | Password del usuario de prueba |
+| `User__Email` | Opcional - por defecto `user@example.com` |
+| `User__Password` | Opcional - por defecto `User123` |
 
-## Cuentas de prueba
+## Cuenta de prueba
 
 | Rol  |      Email       | Password |
 |------|------------------|----------|
@@ -226,7 +225,7 @@ Los archivos generados se almacenan en `dist/vinilo-vibes/browser/documentation`
 | TypeDoc | Vercel | https://vinilo-vibes.vercel.app/documentation/index.html |
 | Base de datos | Render PostgreSQL | (interna) |
 
-Ambos servicios se despliegan automaticamente con cada push a `master`.
+Los servicios se despliegan automaticamente con cada push a `master`.
 
 ## Licencia
 
