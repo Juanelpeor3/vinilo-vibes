@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, OnDestroy } from '@angular/core';
 import { VinylService } from '../../services/vinyl/vinyl';
 import { Vinyl } from '../../shared/models/vinyl-model';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,7 +19,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './vinyl-details.html',
   styleUrl: './vinyl-details.scss',
 })
-export class VinylDetails {
+export class VinylDetails implements OnDestroy {
   private vinylService = inject(VinylService);
   private authService = inject(AuthService);
   private cartService = inject(CartService);
@@ -34,8 +34,11 @@ export class VinylDetails {
 
   vinyl = signal<Vinyl | null>(null);
   isLoading = signal(true);
+  isSlow = signal(false);
+  private slowTimer: ReturnType<typeof setTimeout> | null = null;
 
   async ngOnInit() {
+    this.slowTimer = setTimeout(() => this.isSlow.set(true), 3000);
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       try {
@@ -49,10 +52,17 @@ export class VinylDetails {
         this.vinyl.set(null);
       } finally {
         this.isLoading.set(false);
+        if (this.slowTimer) clearTimeout(this.slowTimer);
+        this.isSlow.set(false);
       }
     } else {
       this.isLoading.set(false);
+      if (this.slowTimer) clearTimeout(this.slowTimer);
     }
+  }
+
+  ngOnDestroy() {
+    if (this.slowTimer) clearTimeout(this.slowTimer);
   }
 
   async addToCart(vinyl: Vinyl) {

@@ -2,6 +2,9 @@
 <div class="status-message">
   <mat-spinner diameter="50"></mat-spinner>
   <p>Cargando vinilo...</p>
+  @if (isSlow()) {
+  <p>El servidor se esta iniciando, espera un momento.</p>
+  }
 </div>
 } @else if (vinyl(); as data) {
 <div class="vinyl-grid">

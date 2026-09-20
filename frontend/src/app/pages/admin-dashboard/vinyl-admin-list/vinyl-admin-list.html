@@ -5,6 +5,9 @@
 <div class="spinner-container">
     <mat-spinner diameter="50"></mat-spinner>
     <p>Cargando vinilos...</p>
+    @if (isSlow()) {
+    <p>El servidor se esta iniciando, espera un momento.</p>
+    }
 </div>
 } @else {
 <div class="container">

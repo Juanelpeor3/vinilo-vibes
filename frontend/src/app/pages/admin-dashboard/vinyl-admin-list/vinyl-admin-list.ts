@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, OnDestroy } from '@angular/core';
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { CommonModule } from '@angular/common';
 import { VinylService } from '../../../services/vinyl/vinyl';
@@ -16,20 +16,29 @@ import { MatDialog } from '@angular/material/dialog';
   templateUrl: './vinyl-admin-list.html',
   styleUrl: './vinyl-admin-list.scss',
 })
-export class VinylAdminList {
+export class VinylAdminList implements OnDestroy {
   private vinylService = inject(VinylService);
   constructor(private route: ActivatedRoute, private titleService: Title, private dialog: MatDialog) { }
 
   vinyls = signal<Vinyl[]>([]);
   isLoading = signal(true);
+  isSlow = signal(false);
   notFound = signal(false);
+  private slowTimer: ReturnType<typeof setTimeout> | null = null;
 
   currentName = signal<string>("");
 
   async ngOnInit() {
+    this.slowTimer = setTimeout(() => this.isSlow.set(true), 3000);
     this.vinyls.set(await this.vinylService.getAll());
     this.isLoading.set(false);
+    if (this.slowTimer) clearTimeout(this.slowTimer);
+    this.isSlow.set(false);
     this.currentName.set("Todos los Vinilos disponibles:");
+  }
+
+  ngOnDestroy() {
+    if (this.slowTimer) clearTimeout(this.slowTimer);
   }
 
   openCreateModal() {
