@@ -160,7 +160,7 @@ pnpm start
 
 | Method | Route | Description | Auth |
 |---|---|---|---|
-| POST | `/api/auth/register` | Register user | No |
+| POST | `/api/auth/register` | Register user | Admin |
 | POST | `/api/auth/login` | Login | No |
 | GET | `/api/vinyls` | List vinyls | No |
 | GET | `/api/vinyls/{id}` | Vinyl details | No |
