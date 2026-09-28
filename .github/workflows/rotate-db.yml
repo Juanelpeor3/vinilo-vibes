@@ -1,0 +1,215 @@
+name: Rotate Render DB
+
+# Free Render PostgreSQL databases expire after 30 days.
+
+on:
+  schedule:
+    - cron: '0 3 1,15 * *' # 1st and 15th of each month at 03:00 UTC
+  workflow_dispatch: # Allow manual trigger
+
+# Required GitHub Secrets:
+#   RENDER_API_KEY        — API key from https://dashboard.render.com/u/settings#api-keys
+#   RENDER_OWNER_ID       — Owner (user/team) ID, visible in dashboard URL or via API
+#   RENDER_SERVICE_ID     — Web service ID for the backend (starts with "srv-")
+#
+# Optional GitHub Variables:
+#   RENDER_REGION         — Render region (default: frankfurt)
+#   RENDER_PG_VERSION     — PostgreSQL version (default: 18)
+#   DB_ENV_VAR_KEY        — Env var key for the connection string
+#                           (default: ConnectionStrings__DefaultConnection)
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rotate-render-db
+  cancel-in-progress: false
+
+jobs:
+  rotate:
+    name: Rotate free PostgreSQL
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    env:
+      API: https://api.render.com/v1
+      KEY: ${{ secrets.RENDER_API_KEY }}
+      OWNER: ${{ secrets.RENDER_OWNER_ID }}
+      SERVICE: ${{ secrets.RENDER_SERVICE_ID }}
+      REGION: ${{ vars.RENDER_REGION || 'frankfurt' }}
+      PG_VERSION: ${{ vars.RENDER_PG_VERSION || '18' }}
+      ENV_KEY: ${{ vars.DB_ENV_VAR_KEY || 'ConnectionStrings__DefaultConnection' }}
+
+    steps:
+      - name: Delete existing database(s)
+        run: |
+          response=$(curl -s -w '\n%{http_code}' \
+            -H "Authorization: Bearer $KEY" \
+            "$API/postgres?ownerId=$OWNER&limit=100")
+          http=$(echo "$response" | tail -n1)
+          body=$(echo "$response" | sed '$d')
+
+          if [[ ! "$http" =~ ^2 ]]; then
+            echo "$body"
+            echo "::error::Could not list databases (HTTP $http)"
+            exit 1
+          fi
+
+          ids=$(echo "$body" | jq -r '
+            .[] | (.postgres // .)
+            | select(.name | startswith("vinilo-vibes-db"))
+            | .id')
+
+          if [ -z "$ids" ]; then
+            echo "No existing database found"
+            exit 0
+          fi
+
+          for id in $ids; do
+            echo "Deleting $id"
+            curl -sf -X DELETE -H "Authorization: Bearer $KEY" \
+              "$API/postgres/$id" > /dev/null
+
+            for i in $(seq 1 18); do
+              code=$(curl -s -o /dev/null -w '%{http_code}' \
+                -H "Authorization: Bearer $KEY" "$API/postgres/$id")
+              echo "Waiting for deletion of $id ($i/18): HTTP $code"
+              [ "$code" = "404" ] && break
+              sleep 10
+            done
+          done
+
+      - name: Create new database
+        id: create
+        run: |
+          body=$(jq -n \
+            --arg name "vinilo-vibes-db-$(date +%Y%m%d)" \
+            --arg region "$REGION" \
+            --arg version "$PG_VERSION" \
+            --arg owner "$OWNER" \
+            '{name: $name, plan: "free", region: $region, version: $version, ownerId: $owner}')
+
+          out=$(mktemp)
+          for i in $(seq 1 10); do
+            http=$(curl -s -o "$out" -w '%{http_code}' -X POST \
+              -H "Authorization: Bearer $KEY" \
+              -H "Content-Type: application/json" \
+              -d "$body" "$API/postgres")
+            [[ "$http" =~ ^2 ]] && break
+            echo "Attempt $i/10 failed (HTTP $http)"
+            sleep 15
+          done
+
+          new_id=$(jq -r '.id // .postgres.id // empty' "$out")
+          if [ -z "$new_id" ]; then
+            echo "::error::Failed to create database after 10 attempts"
+            exit 1
+          fi
+
+          echo "id=$new_id" >> "$GITHUB_OUTPUT"
+          echo "Created database: $new_id"
+
+      - name: Wait for database to be available
+        env:
+          NEW_DB_ID: ${{ steps.create.outputs.id }}
+        run: |
+          for i in $(seq 1 30); do
+            status=$(curl -sf \
+              -H "Authorization: Bearer $KEY" \
+              "$API/postgres/$NEW_DB_ID" \
+              | jq -r '.status // .postgres.status')
+
+            echo "Attempt $i/30: status=$status"
+
+            if [ "$status" = "available" ]; then
+              echo "Database is ready"
+              exit 0
+            fi
+
+            sleep 10
+          done
+
+          echo "::error::Database not available after 5 minutes"
+          exit 1
+
+      - name: Update connection string on service
+        env:
+          NEW_DB_ID: ${{ steps.create.outputs.id }}
+        run: |
+          # Get internal connection string (faster, free within Render network)
+          conn_info=$(curl -sf \
+            -H "Authorization: Bearer $KEY" \
+            "$API/postgres/$NEW_DB_ID/connection-info")
+
+          internal_uri=$(echo "$conn_info" | jq -r '.internalConnectionString')
+
+          if [ -z "$internal_uri" ] || [ "$internal_uri" = "null" ]; then
+            echo "::error::Could not get connection info. Check database ID."
+            exit 1
+          fi
+
+          echo "::add-mask::$internal_uri"
+
+          # Convert postgresql:// URI to .NET Npgsql connection string
+          # Uses env var instead of interpolation to avoid injection
+          conn_string=$(INTERNAL_URI="$internal_uri" python3 - <<'PY'
+          import os
+          from urllib.parse import urlparse, unquote
+          u = urlparse(os.environ["INTERNAL_URI"])
+          print(f"Host={u.hostname};Port={u.port or 5432};Database={u.path[1:]};"
+                f"Username={unquote(u.username)};Password={unquote(u.password)}")
+          PY
+          )
+
+          echo "::add-mask::$conn_string"
+          echo "Connection string built successfully"
+
+          # Update only the connection string variable (not all env vars)
+          jq -n --arg v "$conn_string" '{value: $v}' | \
+            curl -sf -X PUT \
+              -H "Authorization: Bearer $KEY" \
+              -H "Content-Type: application/json" \
+              --data @- \
+              "$API/services/$SERVICE/env-vars/$ENV_KEY" > /dev/null
+
+          echo "Environment variable '$ENV_KEY' updated"
+
+      - name: Deploy and wait for it to be live
+        run: |
+          deploy_id=$(curl -sf -X POST \
+            -H "Authorization: Bearer $KEY" \
+            -H "Content-Type: application/json" \
+            -d '{}' \
+            "$API/services/$SERVICE/deploys" | jq -r '.id // .deploy.id')
+
+          if [ -z "$deploy_id" ] || [ "$deploy_id" = "null" ]; then
+            echo "::error::Could not trigger deploy"
+            exit 1
+          fi
+
+          echo "Deploy triggered: $deploy_id"
+
+          for i in $(seq 1 40); do
+            status=$(curl -sf \
+              -H "Authorization: Bearer $KEY" \
+              "$API/services/$SERVICE/deploys/$deploy_id" | jq -r '.status // .deploy.status')
+
+            echo "Attempt $i/40: deploy status=$status"
+
+            if [ "$status" = "live" ]; then
+              echo "Deploy is live"
+              exit 0
+            fi
+
+            case "$status" in
+              build_failed|update_failed|canceled)
+                echo "::error::Deploy failed with status: $status"
+                exit 1
+                ;;
+            esac
+
+            sleep 15
+          done
+
+          echo "::error::Deploy did not go live within 10 minutes"
+          exit 1
